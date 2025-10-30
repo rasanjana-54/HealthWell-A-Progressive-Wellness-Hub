@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student 4 - Page Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            padding-top: 50px;
+            /* Space for fixed navbar */
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .top-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Header Styles - Fixed */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 80px;
+            /* Fixed height to prevent jumping */
+        }
+
+        header .top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            /* Match header height */
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+            /* Prevent logo from shrinking */
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        /* Fixed h1 styling to prevent clash */
+        header h1 {
+            font-size: 1.6rem;
+            /* Reduced from 1.8rem */
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+            margin-right: 20px;
+            /* Add margin to separate from nav */
+        }
+
+        /* Fixed Navigation */
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+            /* Prevent navbar from shrinking */
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(27, 2, 2, 0.05);
+            padding: 8px 12px;
+            /* Increased padding for bounce space */
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+            /* Fixed minimum height */
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+            /* Changed from hidden to visible for bounce effect */
+        }
+
+        .navbar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            /* Reduced padding to fit better */
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            /* Slightly reduced font size */
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+        }
+
+        /* Fixed hover effect with sliding background */
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        /* Fixed hover effect - reduced bounce distance */
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            /* Reduced from -2px */
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active state with unique animation */
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        /* Ripple effect on click */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Fixed floating navigation indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            /* Moved up to stay within bounds */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* Main Content */
+        main {
+            background: rgb(12, 151, 142);
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1faa73, #22ebf5);
+            color: rgb(2, 21, 21);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .content-area {
+            padding: 40px;
+        }
+
+        /* Horizontal Navigation */
+        .sidebar {
+            background: linear-gradient(135deg, #7bfff8, #16bf6d);
+            /* Gradient background from light blue to green */
+            padding: 20px;
+            /* Inner space inside the sidebar */
+            border-radius: 15px;
+            /* Rounded corners */
+            margin-bottom: 30px;
+            /* Space below sidebar */
+            box-shadow: 0 4px 15px rgba(14, 92, 65, 0.1);
+            /* Light shadow for depth */
+        }
+
+        .sidebar h3 {
+            color: #2d3748;
+            /* Dark gray heading text */
+            margin-bottom: 20px;
+            /* Space below heading */
+            font-size: 18px;
+            /* Font size of heading */
+            text-align: center;
+            /* Center the heading text */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            /* Remove bullet points */
+            display: flex;
+            /* Use flexbox for layout */
+            flex-wrap: wrap;
+            /* Wrap items to next line if needed */
+            justify-content: center;
+            /* Center align items horizontally */
+            gap: 15px;
+            /* Space between items */
+        }
+
+        .sidebar li {
+            margin-bottom: 0;
+            /* No extra space below list items */
+        }
+
+        .sidebar a {
+            color: white;
+            /* White text */
+            text-decoration: none;
+            /* Remove underline from links */
+            padding: 12px 24px;
+            /* Space inside link buttons */
+            display: block;
+            /* Make link occupy full container */
+            border-radius: 25px;
+            /* Rounded pill-style corners */
+            background: linear-gradient(135deg, #065760, #056a5e);
+            /* Button background gradient */
+            transition: all 0.3s ease;
+            /* Smooth transition for hover effects */
+            font-weight: 500;
+            /* Medium bold text */
+            text-align: center;
+            /* Center text inside button */
+            min-width: 120px;
+            /* Minimum width for consistency */
+            box-shadow: 0 3px 10px rgba(77, 208, 225, 0.3);
+            /* Soft glow effect */
+        }
+
+        .sidebar a:hover {
+            background: linear-gradient(135deg, #5becdd, #11a9bd);
+            /* Change gradient on hover */
+            transform: translateY(-2px);
+            /* Slightly move up on hover */
+            box-shadow: 0 5px 15px rgba(77, 208, 225, 0.4);
+            /* Stronger glow on hover */
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+            /* Space between sections */
+            padding: 30px;
+            /* Inner space */
+            background: #fafafa;
+            /* Light gray background */
+            border-radius: 8px;
+            /* Rounded corners */
+            border-left: 4px solid #1e7e63;
+            /* Green line on the left side */
+        }
+
+        .section h2 {
+            color: #021b1a;
+            /* Dark heading color */
+            margin-bottom: 20px;
+            /* Space below heading */
+            font-size: 24px;
+            /* Bigger heading size */
+            border-bottom: 2px solid #42ffc9;
+            /* Underline the heading */
+            padding-bottom: 10px;
+            /* Space under the text */
+        }
+
+        .section h3 {
+            color: #2b593a;
+            /* Dark green color for subheadings */
+            margin-top: 25px;
+            /* Space above subheading */
+            margin-bottom: 15px;
+            /* Space below subheading */
+            font-size: 20px;
+            /* Font size for subheadings */
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            /* Space below each paragraph */
+            text-align: justify;
+            /* Align both left and right edges */
+        }
+
+        .section ul {
+            margin-left: 20px;
+            /* Indent list from the left */
+            margin-bottom: 15px;
+            /* Space below list */
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            /* Space between list items */
+        }
+
+        /* Page Links */
+        .page-link {
+            display: inline-block;
+            /* Treat as a block but in line */
+            background: #3ead61;
+            /* Green background */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Space inside the button */
+            text-decoration: none;
+            /* No underline */
+            border-radius: 5px;
+            /* Slightly rounded corners */
+            margin: 5px 10px 5px 0;
+            /* Space around buttons */
+            transition: background-color 0.3s;
+            /* Smooth background change */
+        }
+
+        .page-link:hover {
+            background: #4A7C59;
+            /* Dark green on hover */
+        }
+
+        /* Validation Links (smaller buttons) */
+        .validation-link {
+            display: inline-block;
+            /* Same as above */
+            background: #248e75;
+            /* Teal background */
+            color: white;
+            /* Text color */
+            padding: 8px 16px;
+            /* Padding inside */
+            text-decoration: none;
+            /* No underline */
+            border-radius: 4px;
+            /* Slight corner rounding */
+            margin: 5px 10px 5px 0;
+            /* Margin around */
+            font-size: 14px;
+            /* Slightly smaller font */
+            transition: background-color 0.3s;
+            /* Hover effect */
+        }
+
+        .validation-link:hover {
+            background: #FF7A2B;
+            /* Orange background on hover */
+        }
+
+        /* Code Snippet Box */
+        .code-example {
+            background: #2d3748;
+            /* Dark background */
+            color: #e2e8f0;
+            /* Light text */
+            padding: 15px;
+            /* Padding inside code block */
+            border-radius: 5px;
+            /* Rounded edges */
+            font-family: 'Courier New', monospace;
+            /* Monospace font for code */
+            overflow-x: auto;
+            /* Allow horizontal scroll if needed */
+            margin: 15px 0;
+            /* Space above and below */
+        }
+
+        /* Go to Top Button */
+        .go-to-top {
+            position: fixed;
+            /* Always fixed on screen */
+            bottom: 30px;
+            /* From bottom */
+            right: 30px;
+            /* From right */
+            background: linear-gradient(135deg, #3514a1 0%, #22bb34 100%);
+            /* Green and purple gradient */
+            color: white;
+            /* White text */
+            padding: 15px 20px;
+            /* Button padding */
+            border: none;
+            /* No border */
+            border-radius: 50px;
+            /* Fully rounded button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            font-size: 16px;
+            /* Font size */
+            font-weight: bold;
+            /* Bold text */
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            /* Green shadow */
+            transition: all 0.3s ease;
+            /* Smooth hover animations */
+            z-index: 1000;
+            /* On top of other content */
+            text-decoration: none;
+            /* No underline */
+            display: flex;
+            /* Flex layout for icon + text */
+            align-items: center;
+            /* Center items vertically */
+            gap: 8px;
+            /* Space between icon and text */
+        }
+
+        /* Smooth scroll when clicking links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .content-area {
+                padding: 20px;
+                /* Less padding on small screens */
+            }
+
+            .sidebar ul {
+                flex-direction: column;
+                /* Stack nav items vertically */
+                align-items: center;
+                /* Center them */
+            }
+
+            .sidebar a {
+                min-width: 200px;
+                /* Wider buttons for touch */
+            }
+        }
+    </style> <!-- End of CSS -->
+</head>
+
+<body>
+    <!-- Header section with logo and navbar -->
+    <header>
+        <div class="top-container">
+            <!-- Logo and site name -->
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo"> <!-- Logo image -->
+                <h1>HealthWell</h1> <!-- Website name -->
+            </div>
+
+            <!-- Horizontal navigation menu -->
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li> <!-- Home page -->
+                    <li><a href="volunteer.html">Volunteer</a></li> <!-- Volunteer info -->
+                    <li><a href="table.html">Resources</a></li> <!-- Resource table -->
+                    <li><a href="profile.html">Profile</a></li> <!-- User profile -->
+                    <li><a href="feedback.html">Feedback</a></li> <!-- Feedback form -->
+                    <li><a href="sitemap.html">Sitemap</a></li> <!-- Sitemap page -->
+                    <li><a href="team.html">Team</a></li> <!-- Team info -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area begins -->
+    <main>
+
+
+        <div class="page-header">
+            <h1>Student 4 - Page Editor</h1>
+            <p>Technical Documentation and Implementation Details</p>
+        </div>
+
+        <div class="container">
+            <div class="content-area">
+                <!-- Horizontal Navigation -->
+                <div class="sidebar">
+                    <h3>Quick Navigation</h3>
+                    <ul>
+                        <li><a href="#overview">Content Overview</a></li>
+                        <li><a href="#user-profile">User Profile Page</a></li>
+                        <li><a href="#sitemap">Sitemap Page</a></li>
+                        <li><a href="#content">Content Page</a></li>
+                        <li><a href="#challenges">Challenges & Lessons</a></li>
+                        <li><a href="#accessibility">Accessibility</a></li>
+                        <li><a href="#compliance">Compliance</a></li>
+                        <li><a href="#references">References</a></li>
+                    </ul>
+                </div>
+
+                <!-- Content Overview Section -->
+                <section id="overview" class="section">
+                    <!-- Section block with id 'overview' and styling class 'section' -->
+                    <h2>Content Overview</h2> <!-- Main heading for the section -->
+
+                    <h3>Name and Role</h3> <!-- Subheading for name/role -->
+                    <p><strong>Name:</strong> Ishani Perera</p> <!-- Student's name -->
+                    <p><strong>Role:</strong> Student 4 - User Interface Designer & SVG Developer</p>
+                    <!-- Student's assigned role -->
+
+                    <h3>Completed Tasks/Pages</h3> <!-- Subheading for completed pages -->
+                    <ul> <!-- Unordered list of completed pages -->
+                        <li>User Profile Page (profile.html)</li>
+                        <li>Sitemap Page with SVG implementation (sitemap.html)</li>
+                        <li>Content Page (content_ST4.html)</li>
+                        <li>Page Editor (pageEditor_ST4.html)</li>
+                        <li>Validation Page (validation_ST4.html)</li>
+                    </ul>
+
+                    <h3>Page Links</h3> <!-- Subheading for page links -->
+                    <!-- Buttons that open each page in a new tab -->
+                    <a href="profile.html" target="_blank" class="page-link">User Profile Page</a>
+                    <a href="sitemap.html" target="_blank" class="page-link">Sitemap Page</a>
+                    <a href="content_ST4.html" target="_blank" class="page-link">Content Page</a>
+                </section>
+
+                <!-- User Profile Page Section -->
+                <section id="user-profile" class="section">
+                    <h2>User Profile Page</h2> <!-- Section title -->
+                    <!-- Link to validation section of profile -->
+                    <a href="validation_ST4.html#profile-validation" class="validation-link">View Validation</a>
+
+                    <h3>Technical Implementation</h3>
+                    <p>Explanation of the purpose and features of the user profile page.</p>
+
+                    <h3>Key HTML Tags Used</h3> <!-- Explanation of key HTML tags used in the profile -->
+                    <ul>
+                        <li><strong>&lt;section&gt;</strong> – For profile content blocks</li>
+                        <li><strong>&lt;article&gt;</strong> – Used for standalone profile content</li>
+                        <li><strong>&lt;figure&gt;</strong> and <strong>&lt;figcaption&gt;</strong> – For image and
+                            caption</li>
+                        <li><strong>&lt;progress&gt;</strong> – To show skill progress visually</li>
+                        <li><strong>&lt;form&gt;</strong> – For user input and contact form</li>
+                        <li><strong>&lt;table&gt;</strong> – For availability schedule/calendar</li>
+                        <li><strong>&lt;dl&gt;, &lt;dt&gt;, &lt;dd&gt;</strong> – For structured profile info</li>
+                    </ul>
+
+                    <h3>CSS Techniques Applied</h3> <!-- Description of CSS techniques -->
+                    <ul>
+                        <li><strong>CSS Grid Layout</strong> – For overall page layout</li>
+                        <li><strong>Flexbox</strong> – For arranging cards/buttons</li>
+                        <li><strong>Border-radius</strong> – For circular images</li>
+                        <li><strong>Box-shadow</strong> – To add depth</li>
+                        <li><strong>Hover Effects</strong> – For interactivity</li>
+                        <li><strong>CSS Variables</strong> – For consistent colors</li>
+                    </ul>
+
+                    <!-- Code snippet demonstrating hover effect -->
+                    <div class="code-example">
+                        .profile-card {
+                        background: white;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                        padding: 20px;
+                        transition: transform 0.3s ease;
+                        }
+
+                        .profile-card:hover {
+                        transform: translateY(-5px);
+                        }
+                    </div>
+
+                    <h3>Design Justification</h3>
+                    <p>Justifies design decisions like using cards, visual bars, and consistent layout.</p>
+                </section>
+
+                <!-- Sitemap Page Section -->
+                <section id="sitemap" class="section">
+                    <h2>Sitemap Page</h2>
+                    <a href="validation_ST4.html#sitemap-validation" class="validation-link">View Validation</a>
+
+                    <h3>SVG Implementation</h3>
+                    <p>Explanation of how the sitemap is visually displayed using SVG.</p>
+
+                    <h3>Key HTML and SVG Elements</h3>
+                    <ul>
+                        <li><strong>&lt;svg&gt;</strong> – SVG container</li>
+                        <li><strong>&lt;g&gt;</strong> – Groups elements</li>
+                        <li><strong>&lt;circle&gt;</strong> and <strong>&lt;rect&gt;</strong> – Page nodes</li>
+                        <li><strong>&lt;line&gt;</strong> and <strong>&lt;path&gt;</strong> – Connections between nodes
+                        </li>
+                        <li><strong>&lt;text&gt;</strong> – Node labels</li>
+                        <li><strong>&lt;a&gt;</strong> – Makes nodes clickable</li>
+                        <li><strong>&lt;title&gt;</strong> – Provides accessibility info</li>
+                    </ul>
+
+                    <h3>CSS Styling for SVG</h3>
+                    <ul>
+                        <li><strong>Responsive Design</strong> – Using viewBox</li>
+                        <li><strong>Hover Effects</strong> – Change fill color on hover</li>
+                        <li><strong>Accessibility</strong> – Focus states for keyboard users</li>
+                        <li><strong>Color Coding</strong> – Visual difference between node types</li>
+                    </ul>
+
+                    <div class="code-example">
+                        .sitemap-node {
+                        fill: #6B9B7A;
+                        stroke: #4A7C59;
+                        stroke-width: 2;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                        }
+
+                        .sitemap-node:hover {
+                        fill: #FF8C42;
+                        transform: scale(1.1);
+                        }
+
+                        .sitemap-node:focus {
+                        outline: 2px solid #FF8C42;
+                        outline-offset: 2px;
+                        }
+                    </div>
+
+                    <h3>Accessibility Features</h3>
+                    <ul>
+                        <li><strong>Alt Text</strong> – Via title elements</li>
+                        <li><strong>Keyboard Navigation</strong> – Focusable nodes</li>
+                        <li><strong>Screen Reader Support</strong> – ARIA roles/labels</li>
+                        <li><strong>Color Contrast</strong> – Meets WCAG 2.1 standards</li>
+                    </ul>
+                </section>
+
+                <!-- Content Page Section -->
+                <section id="content" class="section">
+                    <h2>Content Page</h2>
+                    <a href="validation_ST4.html#content-validation" class="validation-link">View Validation</a>
+
+                    <h3>Content Structure</h3>
+                    <p>Description of page topic and goals (sustainable health practices).</p>
+
+                    <h3>Key Features Implemented</h3>
+                    <ul>
+                        <li><strong>Internal Navigation</strong> – Jump links using anchor tags</li>
+                        <li><strong>Hierarchical Headings</strong> – Structured h1-h6 usage</li>
+                        <li><strong>Image Integration</strong> – Use of relevant images with alt text</li>
+                        <li><strong>Fixed "Go to Top" Button</strong> – Always visible button for navigation</li>
+                        <li><strong>Responsive Design</strong> – Adapts layout to different screens</li>
+                    </ul>
+
+                    <h3>HTML Structure</h3>
+                    <ul>
+                        <li><strong>&lt;nav&gt;</strong> – For internal links</li>
+                        <li><strong>&lt;main&gt;</strong> – Wraps main content</li>
+                        <li><strong>&lt;section&gt;</strong> – Each content block</li>
+                        <li><strong>&lt;aside&gt;</strong> – Additional or related content</li>
+                        <li><strong>&lt;button&gt;</strong> – For scroll to top functionality</li>
+                    </ul>
+
+                    <div class="code-example">
+                        .go-to-top {
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        background: #6B9B7A;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 50px;
+                        height: 50px;
+                        cursor: pointer;
+                        z-index: 1000;
+                        transition: background 0.3s ease;
+                        }
+
+                        .go-to-top:hover {
+                        background: #4A7C59;
+                        }
+                    </div>
+                </section>
+
+                <!-- Challenges Section -->
+                <section id="challenges" class="section">
+                    <h2>Challenges and Lessons Learned</h2>
+
+                    <h3>Major Challenges Encountered</h3>
+                    <ul>
+                        <li>Making the SVG responsive</li>
+                        <li>Choosing between CSS Grid and Flexbox</li>
+                        <li>Ensuring keyboard accessibility</li>
+                        <li>Handling browser differences</li>
+                    </ul>
+
+                    <h3>Solutions and Learning Outcomes</h3>
+                    <ul>
+                        <li>Used viewBox and preserveAspectRatio</li>
+                        <li>Learned proper layout technique usage</li>
+                        <li>Improved ARIA and semantic HTML knowledge</li>
+                        <li>Established browser testing routine</li>
+                    </ul>
+
+                    <h3>Key Takeaways</h3>
+                    <p>Summarizes improvements in technical skills and design approach.</p>
+                </section>
+
+                <!-- Accessibility Section -->
+                <section id="accessibility" class="section">
+                    <h2>Accessibility</h2>
+
+                    <h3>Accessibility Features Implemented</h3>
+                    <ul>
+                        <li>Semantic HTML structure</li>
+                        <li>Alt text for images</li>
+                        <li>Keyboard navigability</li>
+                        <li>Color contrast verification</li>
+                        <li>Clear focus indicators</li>
+                        <li>ARIA roles where needed</li>
+                        <li>Responsive for all screen sizes</li>
+                    </ul>
+
+                    <h3>WCAG Guidelines Compliance</h3>
+                    <p>Confirms that WCAG 2.1 AA accessibility standards have been followed.</p>
+                </section>
+
+                <!-- Compliance Section -->
+                <section id="compliance" class="section">
+                    <h2>Compliance</h2>
+
+                    <h3>Janet Regulations Compliance</h3>
+                    <p>Describes how the project meets Janet rules for content and design.</p>
+
+                    <ul>
+                        <li>Original and relevant content</li>
+                        <li>No validation errors in HTML/CSS</li>
+                        <li>Accessibility principles applied</li>
+                        <li>No private data collected</li>
+                        <li>Proper attribution of media</li>
+                    </ul>
+
+                    <h3>Validation Results</h3>
+                    <p>All HTML and CSS have passed validation using official W3C tools.</p>
+                </section>
+
+                <!-- Go to Top Button -->
+                <a href="#top" class="go-to-top" title="Go to top of page" aria-label="Go to top of page">↑</a>
+
+                <!-- References Section -->
+                <section id="references" class="section">
+                    <h2>References</h2>
+
+                    <h3>Academic Resources</h3>
+                    <ul>
+                        <li>Lecture notes and tutorials from your university module</li>
+                        <li>HTML5 and CSS3 specifications from W3C</li>
+                    </ul>
+
+                    <h3>Technical Resources</h3>
+                    <ul>
+                        <li>SVG tutorials from MDN</li>
+                        <li>WCAG documentation for accessibility</li>
+                        <li>CSS Grid guide (e.g., CSS Grid Garden)</li>
+                        <li>Image sources (e.g., iStockPhoto)</li>
+                    </ul>
+
+                    <h3>Validation Tools</h3>
+                    <ul>
+                        <li>W3C HTML Validator</li>
+                        <li>W3C CSS Validator</li>
+                        <li>WAVE accessibility tool</li>
+                    </ul>
+                </section>

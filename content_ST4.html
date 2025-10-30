@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Guide to Health and Wellbeing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+
+            /* Background Image with Gradient Fallback */
+            background:
+                linear-gradient(135deg, rgba(16, 148, 64, 0.8), rgba(170, 236, 212, 0.8)),
+                url("./images/pexels-castorlystock-4058108.jpg") no-repeat center center fixed;
+            background-size: cover;
+            padding-top: 120px;
+            /* Space for fixed navbar */
+            margin: 0;
+
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 80px;
+            /* Fixed height to prevent jumping */
+        }
+
+        header .top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            /* Match header height */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        .top-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+            /* Prevent logo from shrinking */
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            /* Reduced from 1.8rem */
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+            margin-right: 20px;
+            /* Add margin to separate from nav */
+        }
+
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+            /* Prevent navbar from shrinking */
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            /* Increased padding for bounce space */
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0px 10px;
+            /* Less padding */
+            min-height: 40px;
+            /* Reduced from 50px */
+            gap: 15px;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+            /* Changed from hidden to visible for bounce effect */
+        }
+
+        .navbar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            /* Reduced padding to fit better */
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            /* Slightly reduced font size */
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+
+        }
+
+        /* Fixed hover effect with sliding background */
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        /* Fixed hover effect - reduced bounce distance */
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            /* Reduced from -2px */
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active state with unique animation */
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        /* Ripple effect on click */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Fixed floating navigation indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            /* Moved up to stay within bounds */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* 2 Navigation Menu */
+        .nav-menu {
+            background: rgb(114, 234, 152);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-menu h3 {
+            color: #020e09;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 10px 0;
+        }
+
+        .nav-menu a {
+            color: #181f19;
+            text-decoration: none;
+            padding: 12px 15px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .nav-menu a:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Main Content container style */
+        .main-content {
+            background: white;
+            /* White background for the main content area */
+            border-radius: 15px;
+            /* Rounded corners with 15px radius */
+            padding: 40px;
+            /* Inner spacing of 40px on all sides */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for depth */
+            backdrop-filter: blur(10px);
+            /* Slight blur effect behind the container */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Thin translucent border */
+        }
+
+        /* Main heading style */
+        h1 {
+            color: #2c5530;
+            /* Dark green text color */
+            font-size: 2.8em;
+            /* Large font size */
+            margin-bottom: 20px;
+            /* Space below heading */
+            text-align: center;
+            /* Centered text */
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            /* Green gradient background */
+            -webkit-background-clip: text;
+            /* Clip background to text (for webkit browsers) */
+            -webkit-text-fill-color: transparent;
+            /* Make text fill transparent to show gradient */
+            background-clip: text;
+            /* Standard background clip for text */
+        }
+
+        /* Secondary heading style */
+        h2 {
+            color: #2c5530;
+            /* Same dark green color */
+            font-size: 1.9em;
+            /* Medium-large font */
+            margin: 40px 0 20px 0;
+            /* Margin: top 40px, bottom 20px, no left/right margin */
+            padding-bottom: 10px;
+            /* Padding below the heading */
+            border-bottom: 3px solid #030514;
+            /* Thick dark green bottom border */
+        }
+
+        /* Third-level heading style */
+        h3 {
+            color: #2c5530;
+            /* Dark green color */
+            font-size: 1.5em;
+            /* Slightly smaller font */
+            margin: 30px 0 15px 0;
+            /* Margins around the heading */
+            padding-left: 15px;
+            /* Left padding to indent text */
+            border-left: 4px solid #259b47;
+            /* Green vertical bar on the left */
+        }
+
+        /* Fourth-level heading style */
+        h4 {
+            color: #192d1b;
+            /* Darker green color */
+            font-size: 1.3em;
+            /* Smaller font size */
+            margin: 25px 0 10px 0;
+            /* Margins above and below */
+            font-weight: 600;
+            /* Semi-bold font weight */
+        }
+
+        /* Paragraph style */
+        p {
+            margin-bottom: 15px;
+            /* Space below paragraphs */
+            text-align: justify;
+            /* Justify text to align both sides */
+            font-size: 1.1em;
+            /* Slightly larger font */
+            color: #2c5530;
+            /* Dark green text color */
+        }
+
+        /* Section container with spacing */
+        .section {
+            margin-bottom: 50px;
+            /* Large bottom margin to separate sections */
+            padding: 20px 0;
+            /* Vertical padding */
+        }
+
+        /* Styles for images in content */
+        .content-image {
+            width: 100%;
+            /* Full container width */
+            max-width: 650px;
+            /* Max width limit */
+            height: 320px;
+            /* Fixed height */
+            object-fit: cover;
+            /* Crop or scale image to fill container */
+            border-radius: 15px;
+            /* Rounded corners */
+            margin: 25px auto;
+            /* Center horizontally with vertical margin */
+            display: block;
+            /* Make image a block element */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            /* Subtle shadow around image */
+            border: 3px solid white;
+            /* White border around image */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Smooth hover effects */
+        }
+
+        /* Hover effect for images */
+        .content-image:hover {
+            transform: scale(1.02);
+            /* Slight zoom in */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            /* Stronger shadow on hover */
+        }
+
+        /* Caption text below images */
+        .image-caption {
+            text-align: center;
+            /* Centered text */
+            font-style: italic;
+            /* Italic style */
+            color: #666;
+            /* Grey color */
+            margin-top: 10px;
+            /* Space above caption */
+            font-size: 0.95em;
+            /* Slightly smaller font */
+        }
+
+        /* "Go to Top" button style */
+        .go-to-top {
+            position: fixed;
+            /* Fixed on screen */
+            bottom: 30px;
+            /* 30px from bottom */
+            right: -150px;
+            /* 30px from right */
+            background: linear-gradient(135deg, #3514a1 0%, #22bb34 100%);
+            /* Green gradient background */
+            color: white;
+            /* White text */
+            padding: 15px 20px;
+            /* Padding inside button */
+            border: none;
+            /* No border */
+            border-radius: 50px;
+            /* Rounded pill shape */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            font-size: 16px;
+            /* Medium font size */
+            font-weight: bold;
+            /* Bold text */
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            /* Green shadow */
+            transition: all 0.3s ease;
+            /* Smooth transitions */
+            z-index: 1000;
+            /* On top of other elements */
+            text-decoration: none;
+            /* No underline */
+            display: flex;
+            /* Flex container for icon + text */
+            align-items: center;
+            /* Vertically center content */
+            gap: 8px;
+            /* Space between items */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hover effect for "Go to Top" button */
+        .go-to-top:hover {
+            transform: translateY(-3px);
+            /* Slightly lift up */
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.4);
+            /* Stronger shadow */
+            background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+            /* Reverse gradient */
+        }
+
+        /* Styles for unordered and ordered lists */
+        ul,
+        ol {
+            margin: 20px 0 20px 30px;
+            /* Margins with left indent */
+        }
+
+        /* List item style */
+        li {
+            margin: 10px 0;
+            /* Vertical margin */
+            font-size: 1.1em;
+            /* Slightly bigger text */
+            color: #2c5530;
+            /* Dark green color */
+        }
+
+        /* Highlight box style */
+        .highlight-box {
+            background: linear-gradient(135deg, #2ddbc4 0%, #99f3ae 100%);
+            /* Light blue to green gradient */
+            color: white;
+            /* White text */
+            padding: 25px;
+            /* Inner padding */
+            border-radius: 15px;
+            /* Rounded corners */
+            margin: 25px 0;
+            /* Vertical margin */
+            box-shadow: 0 8px 25px rgba(124, 230, 230, 0.3);
+            /* Soft shadow */
+        }
+
+        /* Info box style */
+        .info-box {
+            background: linear-gradient(135deg, #aecbf7 0%, #93dfbe 100%);
+            /* Light blue-green gradient */
+            color: white;
+            /* White text */
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+            /* Blue shadow */
+        }
+
+        /* Wellness tip box style */
+        .wellness-tip {
+            background: linear-gradient(135deg, #31a8db 0%, #67eaab 100%);
+            /* Light blue-green gradient */
+            color: white;
+            /* White text */
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            /* Green shadow */
+        }
+
+        /* Responsive design for screens smaller than 768px */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                /* Single column layout */
+                gap: 20px;
+                /* Smaller gap */
+                padding: 10px;
+                /* Reduced padding */
+            }
+
+            .nav-menu {
+                position: relative;
+                /* Normal flow */
+                top: 0;
+                /* Reset top */
+            }
+
+            .main-content {
+                padding: 20px;
+                /* Smaller padding on main content */
+            }
+
+            h1 {
+                font-size: 2.2em;
+                /* Smaller heading font size */
+            }
+
+            h2 {
+                font-size: 1.6em;
+                /* Smaller subheading font size */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <!-- Internal Navigation Menu -->
+        <nav class="nav-menu">
+            <h3>🌿 Health & Wellbeing Guide</h3>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#physical-health">Physical Health</a></li>
+                <li><a href="#nutrition">Nutrition & Diet</a></li>
+                <li><a href="#exercise-fitness">Exercise & Fitness</a></li>
+                <li><a href="#mental-wellbeing">Mental Wellbeing</a></li>
+                <li><a href="#sleep-rest">Sleep & Rest</a></li>
+                <li><a href="#preventive-care">Preventive Healthcare</a></li>
+                <li><a href="#lifestyle-habits">Healthy Lifestyle</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <h1 id="top">Complete Guide to Health and Wellbeing</h1>
+
+            <section id="introduction" class="section">
+                <h2>Understanding Health and Wellbeing</h2>
+                <p>Health and wellbeing encompass much more than just the absence of disease. True wellness is a
+                    holistic state of complete physical, mental, and social wellbeing that allows individuals to live
+                    fulfilling, productive lives. This comprehensive guide explores all dimensions of health, providing
+                    you with evidence-based strategies to optimize your overall wellness and quality of life.</p>
+
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    alt="Person practicing yoga outdoors in nature, representing holistic health and wellness lifestyle"
+                    class="content-image">
+                <p class="image-caption">Holistic wellness combines physical activity, mental peace, and connection with
+                    nature</p>
+
+                <p>The World Health Organization defines health as "a state of complete physical, mental and social
+                    well-being and not merely the absence of disease or infirmity." This definition emphasizes that
+                    health is multidimensional and interconnected. Physical health involves the proper functioning of
+                    our body systems, mental health encompasses our emotional and psychological state, and social health
+                    relates to our relationships and community connections.</p>
+
+                <h3>The Six Dimensions of Wellness</h3>
+                <p>Modern wellness approaches recognize six key dimensions: Physical wellness focuses on maintaining a
+                    healthy body through exercise, nutrition, and medical care. Emotional wellness involves
+                    understanding and managing our feelings effectively. Intellectual wellness encompasses lifelong
+                    learning and mental stimulation. Social wellness relates to building meaningful relationships and
+                    contributing to our community. Spiritual wellness involves finding purpose and meaning in life.
+                    Environmental wellness focuses on living in harmony with our surroundings and protecting the
+                    environment.</p>
+
+                <div class="wellness-tip">
+                    <h4>Wellness Fact</h4>
+                    <p>Research shows that people who actively work on multiple dimensions of wellness have a 50% lower
+                        risk of chronic diseases and report significantly higher life satisfaction compared to those who
+                        focus on just one aspect of health.</p>
+                </div>
+            </section>
+
+            <section id="physical-health" class="section">
+                <h2>Physical Health Fundamentals</h2>
+                <p>Physical health forms the foundation of overall wellbeing and involves maintaining your body's
+                    optimal functioning through proper care, regular activity, and preventive measures. Understanding
+                    how to care for your physical health is crucial for long-term wellness and disease prevention.</p>
+
+                <h3>Body Systems and Health</h3>
+                <p>Our bodies comprise interconnected systems that work together to maintain health. The cardiovascular
+                    system pumps blood and delivers oxygen throughout the body. The respiratory system facilitates
+                    breathing and gas exchange. The digestive system processes nutrients from food. The immune system
+                    protects against disease and infection. The nervous system controls bodily functions and enables
+                    communication between different parts of the body.</p>
+
+                <h4>Maintaining Cardiovascular Health</h4>
+                <p>Cardiovascular health is vital for overall wellness. Regular aerobic exercise strengthens the heart
+                    muscle, improves circulation, and helps maintain healthy blood pressure. A diet rich in fruits,
+                    vegetables, whole grains, and lean proteins supports heart health. Avoiding smoking, limiting
+                    alcohol consumption, and managing stress also contribute significantly to cardiovascular wellness.
+                </p>
+
+                <h4>Supporting Immune Function</h4>
+                <p>A strong immune system is your body's first line of defense against illness. Getting adequate sleep,
+                    eating a balanced diet rich in vitamins and minerals, staying hydrated, exercising regularly, and
+                    managing stress all support immune function. Practices like regular handwashing and staying
+                    up-to-date with vaccinations also help protect your immune system.</p>
+
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    alt="Group of diverse people jogging together in a park, showing community fitness and cardiovascular health"
+                    class="content-image">
+                <p class="image-caption">Regular cardiovascular exercise with others combines physical and social
+                    wellness</p>
+
+                <h3>Common Health Indicators</h3>
+                <p>Understanding key health indicators helps you monitor your physical wellness. Blood pressure measures
+                    the force of blood against artery walls and should typically be below 120/80 mmHg. Resting heart
+                    rate indicates cardiovascular fitness, with lower rates generally indicating better fitness. Body
+                    mass index (BMI) provides a general indication of healthy weight, though it should be considered
+                    alongside other factors like muscle mass and overall health.</p>
+
+                <div class="info-box">
+                    <h4>Health Monitoring Tips</h4>
+                    <ul>
+                        <li>Check blood pressure regularly, especially if you have risk factors</li>
+                        <li>Monitor your resting heart rate - it often decreases as fitness improves</li>
+                        <li>Track your weight trends rather than daily fluctuations</li>
+                        <li>Pay attention to energy levels and overall how you feel</li>
+                        <li>Schedule regular check-ups with healthcare providers</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="nutrition" class="section">
+                <h2>Nutrition and Healthy Eating</h2>
+                <p>Proper nutrition is fundamental to health and wellbeing, providing the energy and nutrients your body
+                    needs to function optimally. Understanding nutritional principles and developing healthy eating
+                    habits can significantly impact your physical health, mental clarity, and overall quality of life.
+                </p>
+
+                <h3>Essential Nutrients</h3>
+                <p>Your body requires six essential nutrients for optimal function. Carbohydrates provide energy for
+                    daily activities and brain function, with complex carbohydrates being preferable to simple sugars.
+                    Proteins are building blocks for muscles, tissues, and enzymes. Fats, particularly unsaturated fats,
+                    support brain function and hormone production. Vitamins regulate various bodily processes and
+                    support immune function. Minerals like calcium, iron, and potassium are crucial for bone health,
+                    blood formation, and muscle function. Water is essential for all bodily processes and should
+                    comprise about 60% of body weight.</p>
+
+                <h4>Building a Balanced Plate</h4>
+                <p>The concept of a balanced plate helps ensure you get proper nutrition at each meal. Fill half your
+                    plate with colorful fruits and vegetables, which provide vitamins, minerals, and fiber. One quarter
+                    should contain lean protein sources like fish, poultry, beans, or tofu. The remaining quarter should
+                    include whole grains like brown rice, quinoa, or whole wheat bread. Add healthy fats from sources
+                    like avocados, nuts, or olive oil in moderation.</p>
+
+                <h3>Hydration and Health</h3>
+                <p>Proper hydration is crucial for maintaining health. Water regulates body temperature, lubricates
+                    joints, transports nutrients, and helps remove waste products. Most adults need about 8-10 glasses
+                    of water daily, though individual needs vary based on activity level, climate, and overall health.
+                    Signs of proper hydration include pale yellow urine, good energy levels, and healthy skin
+                    elasticity.</p>
+
+                <h4>Meal Planning and Preparation</h4>
+                <p>Planning and preparing meals in advance supports healthy eating habits and can save time and money.
+                    Start by planning weekly menus that include a variety of foods from all food groups. Prepare
+                    ingredients in advance, such as washing and chopping vegetables or cooking grains in batches. Keep
+                    healthy snacks readily available to avoid impulsive food choices. Reading nutrition labels helps you
+                    make informed food choices and avoid excessive added sugars, sodium, and unhealthy fats.</p>
+
+                <div class="highlight-box">
+                    <h4>Nutrition Guidelines for Optimal Health</h4>
+                    <ul>
+                        <li>Eat a variety of colorful fruits and vegetables daily</li>
+                        <li>Choose whole grains over refined grains</li>
+                        <li>Include lean protein sources at each meal</li>
+                        <li>Limit processed foods and added sugars</li>
+                        <li>Stay hydrated throughout the day</li>
+                        <li>Practice portion control and mindful eating</li>
+                        <li>Limit saturated fats and avoid trans fats</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="exercise-fitness" class="section">
+                <h2>Exercise and Physical Fitness</h2>
+                <p>Regular physical activity is one of the most important things you can do for your health. Exercise
+                    benefits virtually every system in your body and can help prevent chronic diseases, improve mental
+                    health, enhance quality of life, and increase longevity.</p>
+
+                <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    alt="People doing various exercises in a modern gym, including weightlifting and cardio equipment"
+                    class="content-image">
+                <p class="image-caption">A well-rounded fitness routine includes both strength training and
+                    cardiovascular exercise</p>
+
+                <h3>Types of Physical Activity</h3>
+                <p>A comprehensive fitness program includes four main types of physical activity. Aerobic exercise, also
+                    called cardio, strengthens your heart and lungs and includes activities like walking, running,
+                    swimming, and cycling. Strength training builds muscle mass and bone density through resistance
+                    exercises using weights, resistance bands, or body weight. Flexibility exercises like stretching and
+                    yoga improve range of motion and reduce injury risk. Balance activities help prevent falls and
+                    improve stability, especially important as we age.</p>
+
+                <h4>Creating an Exercise Routine</h4>
+                <p>The key to successful exercise is finding activities you enjoy and can maintain consistently. Start
+                    slowly if you're new to exercise, gradually increasing intensity and duration. Aim for at least 150
+                    minutes of moderate-intensity aerobic activity or 75 minutes of vigorous activity per week, plus
+                    muscle-strengthening activities on two or more days per week. Mix different types of activities to
+                    prevent boredom and work different muscle groups.</p>
+
+                <h3>Benefits of Regular Exercise</h3>
+                <p>Regular physical activity provides numerous health benefits. It strengthens the cardiovascular
+                    system, reducing risk of heart disease and stroke. Exercise helps maintain healthy weight, builds
+                    and maintains strong muscles and bones, and improves balance and coordination. Mental health
+                    benefits include reduced anxiety and depression, improved mood, better sleep quality, and enhanced
+                    cognitive function. Exercise also boosts immune function and may reduce the risk of certain cancers.
+                </p>
+
+                <h4>Overcoming Exercise Barriers</h4>
+                <p>Common barriers to exercise include lack of time, motivation, or access to facilities. Solutions
+                    include incorporating activity into daily routines, such as taking stairs instead of elevators or
+                    walking during lunch breaks. Home workouts require minimal equipment and can be done anytime.
+                    Finding exercise partners or joining groups can provide motivation and accountability. Setting
+                    realistic, specific goals helps maintain motivation and track progress.</p>
+
+                <div class="wellness-tip">
+                    <h4>Exercise Safety Tips</h4>
+                    <ul>
+                        <li>Start slowly and gradually increase intensity</li>
+                        <li>Warm up before exercising and cool down afterward</li>
+                        <li>Stay hydrated, especially during intense or long workouts</li>
+                        <li>Listen to your body and rest when needed</li>
+                        <li>Use proper form to prevent injuries</li>
+                        <li>Wear appropriate clothing and footwear</li>
+                        <li>Consult healthcare providers before starting intense exercise programs</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="mental-wellbeing" class="section">
+                <h2>Mental and Emotional Wellbeing</h2>
+                <p>Mental health is an integral part of overall health and wellbeing. It affects how we think, feel, and
+                    act, influencing our ability to handle stress, relate to others, and make healthy choices.
+                    Maintaining good mental health is essential for leading a fulfilling and productive life.</p>
+
+                <h3>Understanding Mental Health</h3>
+                <p>Mental health encompasses our emotional, psychological, and social well-being. Good mental health
+                    isn't just the absence of mental illness – it includes positive characteristics like the ability to
+                    cope with life's challenges, maintain fulfilling relationships, contribute to community, and realize
+                    one's potential. Mental health exists on a continuum, and everyone experiences fluctuations in their
+                    mental wellbeing throughout life.</p>
+
+                <h4>Stress Management</h4>
+                <p>Stress is a natural response to challenging situations, but chronic stress can negatively impact both
+                    mental and physical health. Effective stress management techniques include deep breathing exercises,
+                    progressive muscle relaxation, mindfulness meditation, regular physical activity, and maintaining
+                    social connections. Time management skills, setting realistic expectations, and learning to say no
+                    to excessive commitments also help manage stress levels.</p>
+
+                <h3>Building Emotional Resilience</h3>
+                <p>Emotional resilience is the ability to adapt and bounce back from adversity, trauma, or significant
+                    stress. Building resilience involves developing coping strategies, maintaining optimistic outlook,
+                    building strong relationships, taking care of physical health, and finding meaning in difficult
+                    experiences. Resilience can be developed and strengthened throughout life through practice and
+                    conscious effort.</p>
+
+                <h4>Mindfulness and Mental Health</h4>
+                <p>Mindfulness involves paying attention to the present moment without judgment. Regular mindfulness
+                    practice has been shown to reduce symptoms of anxiety and depression, improve emotional regulation,
+                    enhance focus and concentration, and increase overall life satisfaction. Simple mindfulness
+                    techniques include mindful breathing, body scans, and mindful eating, which can be easily
+                    incorporated into daily routines.</p>
+
+                <div class="info-box">
+                    <h4>Signs of Good Mental Health</h4>
+                    <ul>
+                        <li>Ability to cope with daily stressors</li>
+                        <li>Maintaining positive relationships</li>
+                        <li>Feeling confident and having good self-esteem</li>
+                        <li>Being able to laugh and have fun</li>
+                        <li>Feeling productive and accomplished</li>
+                        <li>Adapting to change and uncertainty</li>
+                        <li>Having a sense of purpose and meaning</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="sleep-rest" class="section">
+                <h2>Sleep and Rest for Optimal Health</h2>
+                <p>Quality sleep is fundamental to health and wellbeing, yet it's often overlooked in our busy lives.
+                    During sleep, your body repairs tissues, consolidates memories, and restores energy for the next
+                    day. Poor sleep can significantly impact physical health, mental wellbeing, and overall quality of
+                    life.</p>
+
+                <h3>Understanding Sleep Cycles</h3>
+                <p>Sleep occurs in cycles, with each cycle lasting about 90-120 minutes. A complete sleep cycle includes
+                    light sleep, deep sleep, and REM (Rapid Eye Movement) sleep. Deep sleep is crucial for physical
+                    restoration and immune function, while REM sleep is important for memory consolidation and emotional
+                    processing. Most adults need 7-9 hours of sleep per night to complete multiple sleep cycles and feel
+                    rested.</p>
+
+                <h4>Creating a Sleep-Friendly Environment</h4>
+                <p>Your sleep environment significantly impacts sleep quality. Keep your bedroom cool, typically between
+                    60-67°F (15-19°C), as cooler temperatures promote better sleep. Ensure your room is as dark as
+                    possible, using blackout curtains or eye masks if necessary. Minimize noise with earplugs or white
+                    noise machines. Invest in a comfortable mattress and pillows that support good sleep posture. Remove
+                    electronic devices from the bedroom or use blue light filters in the evening.</p>
+
+                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    alt="Peaceful bedroom setup with comfortable bedding, soft lighting, and plants, representing good sleep hygiene"
+                    class="content-image">
+                <p class="image-caption">A calm, comfortable sleep environment promotes restorative rest</p>
+
+                <h3>Developing Healthy Sleep Habits</h3>
+                <p>Consistent sleep habits, known as sleep hygiene, can significantly improve sleep quality. Maintain a
+                    regular sleep schedule, going to bed and waking up at the same time every day, even on weekends.
+                    Develop a relaxing bedtime routine that signals to your body it's time to sleep, such as reading,
+                    gentle stretching, or taking a warm bath. Avoid caffeine, large meals, and intense physical activity
+                    close to bedtime.</p>
+
+                <h4>The Impact of Sleep on Health</h4>
+                <p>Quality sleep affects virtually every aspect of health. Adequate sleep supports immune function,
+                    helping your body fight off infections and diseases. It's crucial for memory consolidation and
+                    cognitive performance. Sleep helps regulate hormones that control hunger, stress, and growth.
+                    Chronic sleep deprivation is linked to increased risk of obesity, diabetes, cardiovascular disease,
+                    and mental health problems.</p>
+
+                <div class="highlight-box">
+                    <h4>Sleep Hygiene Checklist</h4>
+                    <ul>
+                        <li>Maintain consistent sleep and wake times</li>
+                        <li>Create a relaxing bedtime routine</li>
+                        <li>Keep bedroom cool, dark, and quiet</li>
+                        <li>Avoid screens for 1-2 hours before bed</li>
+                        <li>Limit caffeine intake, especially after 2 PM</li>
+                        <li>Get natural sunlight exposure during the day</li>
+                        <li>Exercise regularly, but not close to bedtime</li>
+                        <li>Use your bed only for sleep and intimacy</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="preventive-care" class="section">
+                <h2>Preventive Healthcare and Regular Check-ups</h2>
+                <p>Preventive healthcare focuses on preventing diseases and health problems before they occur or
+                    detecting them early when they're most treatable. Regular medical check-ups, screenings, and
+                    vaccinations are essential components of maintaining long-term health and wellbeing.</p>
+
+                <h3>Importance of Regular Health Screenings</h3>
+                <p>Regular health screenings can detect potential health issues before symptoms appear, allowing for
+                    early intervention and better treatment outcomes. Common screenings include blood pressure
+                    monitoring to detect hypertension, cholesterol testing to assess cardiovascular risk, blood glucose
+                    testing for diabetes, and cancer screenings such as mammograms, colonoscopies, and skin checks. The
+                    frequency and types of screenings needed vary based on age, gender, family history, and risk
+                    factors.</p>
+
+                <h4>Vaccinations and Immunizations</h4>
+                <p>Vaccines are one of the most effective ways to prevent infectious diseases and protect both
+                    individual and community health. Adult vaccination schedules typically include annual flu vaccines,
+                    tetanus boosters every 10 years, and age-appropriate vaccines such as shingles and pneumonia
+                    vaccines for older adults. Travel vaccines may be necessary depending on destinations. Staying
+                    up-to-date with recommended vaccinations helps prevent serious illnesses and complications.</p>
+
+                <h3>Building Relationships with Healthcare Providers</h3>
+                <p>Establishing good relationships with healthcare providers is crucial for effective preventive care.
+                    This includes having a primary care physician who understands your health history and can coordinate
+                    your care. Be honest and open about your health concerns, lifestyle habits, and family history.
+                    Prepare for appointments by writing down questions and symptoms. Keep records of your medical
+                    history, medications, and test results.</p>
+
+                <h4>Self-Monitoring and Health Awareness</h4>
+                <p>Being aware of your body and monitoring changes can help detect health issues early. This includes
+                    regular self-examinations such as breast or testicular self-exams, monitoring moles and skin
+                    changes, tracking changes in weight, energy levels, or sleep patterns. Keep a health journal if you
+                    have chronic conditions or are trying to identify patterns in symptoms. Know your family health
+                    history, as genetic factors can influence your risk for certain conditions.</p>
+
+                <div class="info-box">
+                    <h4>Essential Health Screenings by Age</h4>
+                    <p><strong>Ages 20-39:</strong> Blood pressure, cholesterol, diabetes screening, dental check-ups,
+                        eye exams</p>
+                    <p><strong>Ages 40-64:</strong> All of the above plus mammograms, colonoscopies, bone density tests
+                    </p>
+                    <p><strong>Ages 65+:</strong> All previous screenings plus more frequent monitoring, hearing tests,
+                        fall risk assessment</p>
+                    <p><em>Note: Specific recommendations may vary based on individual risk factors and family
+                            history.</em></p>
+                </div>
+            </section>
+
+            <section id="lifestyle-habits" class="section">
+                <h2>Healthy Lifestyle Habits</h2>
+                <p>Developing and maintaining healthy lifestyle habits is key to long-term health and wellbeing. These
+                    habits, when practiced consistently, can significantly reduce the risk of chronic diseases, improve
+                    quality of life, and increase longevity. Small, sustainable changes often lead to the most lasting
+                    improvements in health.</p>
+
+                <h3>Avoiding Harmful Substances</h3>
+                <p>Avoiding or limiting harmful substances is crucial for maintaining good health. Tobacco use is one of
+                    the leading preventable causes of disease and death, linked to cancer, heart disease, stroke, and
+                    numerous other health problems. If you smoke, quitting is one of the best things you can do for your
+                    health, and it's never too late to quit. Excessive alcohol consumption can lead to liver disease,
+                    heart problems, and increased cancer risk. If you drink alcohol, do so in moderation – generally
+                    defined as up to one drink per day for women and up to two drinks per day for men.</p>
+
+                <h4>Managing Technology and Screen Time</h4>
+                <p>In our digital age, managing technology use and screen time has become an important aspect of health.
+                    Excessive screen time, especially before bedtime, can disrupt sleep patterns and contribute to eye
+                    strain, headaches, and poor posture. Create tech-free zones and times in your day, such as during
+                    meals or before bed. Take regular breaks from screens using the 20-20-20 rule: every 20 minutes,
+                    look at something 20 feet away for at least 20 seconds.</p>
+            </section>
+
+            <a href="#top" class="go-to-top" title="Go to top of page" aria-label="Go to top of page">↑</a>
+
+            <footer>
+                <p>Healthwealth | <a href="pageEditor_ST4.html">Page Editor - Student 4</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>

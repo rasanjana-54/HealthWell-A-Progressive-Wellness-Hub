@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Editor - Student 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+            min-height: 100vh;
+            padding-top: 80px; /* Added padding to account for fixed header */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Global Navigation Bar */
+        header.global-header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px;
+        }
+
+        header.global-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo-section img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo-section img:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        header.global-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes activeGlow {
+            0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+            100% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6); }
+        }
+
+        /* Page Editor Specific Styles (retained and adjusted) */
+        h1 {
+            /* Keep original h1 styles if they are for main page title and not the header h1 */
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 5px solid #4caf50;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e8f5e8;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #388e3c;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .task-card {
+            background: #f8fdf8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #e8f5e8;
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover {
+            border-color: #4caf50;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.2);
+        }
+
+        .task-title {
+            color: #2e7d32;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .external-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .external-link:hover {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .validation-link {
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+        }
+
+        .validation-link:hover {
+            background: linear-gradient(135deg, #f57c00, #ff9800);
+        }
+
+        .tech-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tech-item {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin: 0.2rem;
+            font-weight: 500;
+        }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border: 1px solid #ffcc02;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .lesson-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 1px solid #2196f3;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #2196f3;
+        }
+
+        .go-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .go-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+        }
+
+        .reference-list {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid #9e9e9e;
+        }
+
+        .reference-item {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .reference-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Quick Navigation (New styles) */
+        .quick-nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #2e7d32;
+        }
+
+        .quick-nav h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e8f5e8;
+            padding-bottom: 0.5rem;
+        }
+
+        .quick-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .quick-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-nav a {
+            color: #388e3c;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #dcedc8;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .quick-nav a:hover {
+            background: #e8f5e8;
+            border-color: #a5d6a7;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            /* Responsive Design for Global Navigation Bar */
+            header.global-header .container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+
+            .navbar ul {
+                gap: 10px;
+                padding: 5px 8px;
+            }
+
+            .navbar a {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+
+            .task-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-nav ul {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="global-header">
+        <div class="container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <header style="background: none; box-shadow: none; padding: 0; margin-bottom: 2rem;">
+            <h1>Page Editor - Student 2</h1>
+            <p class="subtitle">Health & Well-being Website Development</p>
+        </header>
+
+        <nav class="quick-nav">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#template">Website Template</a></li>
+                <li><a href="#home-page">Home Page</a></li>
+                <li><a href="#table-page">Table Page</a></li>
+                <li><a href="#content-page">Content Page</a></li>
+                <li><a href="#challenges">Challenges</a></li>
+                <li><a href="#accessibility">Accessibility</a></li>
+                <li><a href="#compliance">Compliance</a></li>
+                <li><a href="#references">References</a></li>
+            </ul>
+        </nav>
+        <section id="overview" class="section">
+            <h2>Overview</h2>
+            <p><strong>Name:</strong> K.V.R.Nimsara</p>
+            <p><strong>Role:</strong> Template Designer & Home Page Developer</p>
+            <p><strong>Theme:</strong> Health and Well-being (UN SDG 3)</p>
+            <p><strong>Color Scheme:</strong> Green palette with accent colors</p>
+            
+            <h3>Completed Tasks</h3>
+            <div class="task-grid">
+                <div class="task-card">
+                    <div class="task-title">Website Style & Navigation</div>
+                    <p>Global template structure, CSS framework, and navigation system</p>
+                    <a href="home.html" target="_blank" class="external-link">View Implementation</a>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">Home Page</div>
+                    <p>Main landing page with interactive elements and content links</p>
+                    <a href="home.html" target="_blank" class="external-link">View Home Page</a>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">Table Page</div>
+                    <p>Interactive data table with health and wellness information</p>
+                    <a href="table.html" target="_blank" class="external-link">View Table Page</a>
+                </div>
+                <div class="task-card">
+                    <div class="task-title">Content Page</div>
+                    <p>Detailed content about health and well-being topics</p>
+                    <a href="content_ST2.html" target="_blank" class="external-link">View Content Page</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="template" class="section">
+            <h2>Website Style & Navigation Implementation</h2>
+            
+            <h3>Template Structure</h3>
+            <p>Created a comprehensive website template that ensures consistency across all team members' pages. The template includes:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <strong>Header Section:</strong> Contains website identity, logo, and integrated navigation bar with fixed positioning for optimal user experience.
+                </div>
+                <div class="tech-item">
+                    <strong>Main Content Area:</strong> Flexible container that adapts to different content types while maintaining visual hierarchy.
+                </div>
+                <div class="tech-item">
+                    <strong>Footer Section:</strong> Includes links to individual page editors and accessibility compliance information.
+                </div>
+                <div class="tech-item">
+                    <strong>Wrapper System:</strong> Centered layout with responsive margins for optimal readability across devices.
+                </div>
+            </div>
+
+            <h3>Global CSS Framework</h3>
+            <p>Developed an external CSS file (style.css) implementing:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Color Palette</span>
+                    <p>Primary green (#2e7d32), secondary green (#4caf50), and neutral colors for health theme</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Typography</span>
+                    <p>Segoe UI font family with responsive sizing and proper hierarchy (h1-h6)</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Layout System</span>
+                    <p>Flexbox and CSS Grid for responsive design across all devices</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Interactive Elements</span>
+                    <p>Consistent button styles, hover effects, and transition animations</p>
+                </div>
+            </div>
+
+            <h3>Navigation Bar Features</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">position: fixed</span>
+                    <p>Navigation remains visible during scrolling for enhanced usability</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Hover Effects</span>
+                    <p>CSS transitions with transform and box-shadow properties for visual feedback</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Active State</span>
+                    <p>Dynamic highlighting of current page using CSS classes</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Responsive Design</span>
+                    <p>Adaptive layout for mobile devices using media queries</p>
+                </div>
+            </div>
+
+            <a href="validation_ST2.html#template-validation" class="validation-link">View Template Validation</a>
+        </section>
+
+        <section id="home-page" class="section">
+            <h2>Home Page Implementation</h2>
+            
+            <h3>Website Identity & Mission</h3>
+            <p>The home page serves as the primary entry point, featuring:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Logo Integration</span>
+                    <p>SVG logo with proper alt text for accessibility, positioned using CSS flexbox</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Mission Statement</span>
+                    <p>Clear articulation of health and well-being focus aligned with UN SDG 3</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Visual Hierarchy</span>
+                    <p>Strategic use of headings (h1, h2, h3) and typography scaling</p>
+                </div>
+            </div>
+
+            <h3>Interactive Content Links</h3>
+            <p>Implemented engaging card-style links to team content pages:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">CSS Grid Layout</span>
+                    <p>Responsive grid system using grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Hover Animations</span>
+                    <p>Transform effects with translateY(-5px) and enhanced box-shadow on hover</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Image Optimization</span>
+                    <p>Relevant health-themed images with proper sizing and alternative text</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Link Structure</span>
+                    <p>Proper href attributes linking to content_ST1.html through content_ST4.html</p>
+                </div>
+            </div>
+
+            <a href="home.html" target="_blank" class="external-link">View Home Page</a>
+            <a href="validation_ST2.html#home-validation" class="validation-link">View Home Validation</a>
+        </section>
+
+        <section id="table-page" class="section">
+            <h2>Table Page Implementation</h2>
+            
+            <h3>Interactive Health Data Table</h3>
+            <p>Created a comprehensive table showcasing health and wellness information:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Table Structure</span>
+                    <p>Semantic HTML with proper thead, tbody, and tfoot elements</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Data Organization</span>
+                    <p>8+ rows and 4+ columns featuring health metrics, nutrition data, and exercise benefits</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Visual Styling</span>
+                    <p>Alternating row colors using nth-child(even) CSS selector for improved readability</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Logo Integration</span>
+                    <p>Website logo embedded within table header using proper positioning</p>
+                </div>
+            </div>
+
+            <h3>Advanced Table Features</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">rowspan & colspan</span>
+                    <p>Merged cells creating complex layouts for data categorization</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Thumbnail Headers</span>
+                    <p>Icon-based column headers with tooltip functionality on hover</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Interactive Elements</span>
+                    <p>Clickable links within table cells and hover effects with CSS transitions</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Accessibility Features</span>
+                    <p>ARIA labels, proper table headers association, and screen reader support</p>
+                </div>
+            </div>
+
+            <h3>CSS Styling Techniques</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Box Shadow Effects</span>
+                    <p>Multiple shadow layers creating depth: 0 8px 32px rgba(0,0,0,0.1)</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Border Styling</span>
+                    <p>Custom border combinations with border-collapse and border-spacing properties</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Hover Interactivity</span>
+                    <p>Row highlighting and cell-specific hover effects using :hover pseudo-class</p>
+                </div>
+            </div>
+
+            <a href="table.html" target="_blank" class="external-link">View Table Page</a>
+            <a href="validation_ST2.html#table-validation" class="validation-link">View Table Validation</a>
+        </section>
+
+        <section id="content-page" class="section">
+            <h2>Content Page Implementation</h2>
+            
+            <h3>Content Structure & Navigation</h3>
+            <p>Developed a comprehensive content page focused on mental health and wellness:</p>
+            
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Internal Navigation</span>
+                    <p>Anchor-based navigation menu using href="#section-id" for smooth scrolling</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Heading Hierarchy</span>
+                    <p>Proper use of h1-h6 tags creating logical content structure</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Go to Top Button</span>
+                    <p>Fixed positioning button using position: fixed and href="#top" functionality</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Image Integration</span>
+                    <p>4+ relevant images with proper alt text and responsive CSS styling</p>
+                </div>
+            </div>
+
+            <h3>Content Sections</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <strong>Introduction to Mental Health:</strong> Overview section with statistical data and importance
+                </div>
+                <div class="tech-item">
+                    <strong>Stress Management Techniques:</strong> Practical advice with visual illustrations
+                </div>
+                <div class="tech-item">
+                    <strong>Healthy Lifestyle Habits:</strong> Comprehensive guide to physical and mental wellness
+                </div>
+                <div class="tech-item">
+                    <strong>Resources & Support:</strong> Links to professional help and community resources
+                </div>
+            </div>
+
+            <a href="content_ST2.html" target="_blank" class="external-link">View Content Page</a>
+            <a href="validation_ST2.html#content-validation" class="validation-link">View Content Validation</a>
+        </section>
+
+        <section id="challenges" class="section">
+            <h2>Challenges and Lessons Learned</h2>
+            
+            <div class="challenge-box">
+                <h3>🔧 Technical Challenges</h3>
+                <p><strong>Challenge:</strong> Creating a responsive navigation bar that works consistently across all team members' pages while maintaining visual hierarchy.</p>
+                <p><strong>Solution:</strong> Implemented a flexible CSS Grid system with fallback Flexbox properties. Used CSS custom properties (variables) for consistent theming and created detailed documentation for team integration.</p>
+                <p><strong>Technical Implementation:</strong> Used <code>display: flex</code> with <code>justify-content: space-between</code> and media queries for responsive behavior.</p>
+            </div>
+
+            <div class="challenge-box">
+                <h3>🎨 Design Challenges</h3>
+                <p><strong>Challenge:</strong> Balancing visual appeal with accessibility requirements while maintaining the health theme throughout all components.</p>
+                <p><strong>Solution:</strong> Conducted color contrast testing using WCAG guidelines, implemented semantic HTML structure, and used CSS focus indicators for keyboard navigation.</p>
+                <p><strong>Technical Implementation:</strong> Applied <code>:focus-visible</code> pseudo-class and ARIA attributes for enhanced accessibility.</p>
+            </div>
+
+            <div class="lesson-box">
+                <h3>📚 Key Lessons Learned</h3>
+                <ul>
+                    <li><strong>Team Collaboration:</strong> Clear documentation and communication are essential when creating shared resources like global CSS files.</li>
+                    <li><strong>Responsive Design:</strong> Mobile-first approach using CSS Grid and Flexbox provides better cross-device compatibility.</li>
+                    <li><strong>Performance Optimization:</strong> External CSS files and optimized images significantly improve page load times.</li>
+                    <li><strong>Accessibility Integration:</strong> Building accessibility features from the beginning is more efficient than retrofitting.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="accessibility" class="section">
+            <h2>Accessibility Implementation</h2>
+            
+            <h3>WCAG Compliance Features</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">Color Contrast</span>
+                    <p>All text meets WCAG AA standards with minimum 4.5:1 contrast ratio</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Keyboard Navigation</span>
+                    <p>All interactive elements accessible via Tab key with visible focus indicators</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Screen Reader Support</span>
+                    <p>Proper heading structure, alt text for images, and ARIA labels where appropriate</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Semantic HTML</span>
+                    <p>Use of nav, main, section, header, and footer elements for proper document structure</p>
+                </div>
+            </div>
+
+            <h3>Specific Accessibility Implementations</h3>
+            <ul>
+                <li>Alternative text for all decorative and informative images</li>
+                <li>Skip navigation links for keyboard users</li>
+                <li>Consistent navigation structure across all pages</li>
+                <li>Clear error messaging in forms with proper labels</li>
+                <li>Responsive design ensuring usability across devices</li>
+            </ul>
+        </section>
+
+        <section id="compliance" class="section">
+            <h2>Janet Regulations Compliance</h2>
+            
+            <h3>Web Standards Adherence</h3>
+            <div class="tech-list">
+                <div class="tech-item">
+                    <span class="tech-tag">HTML5 Validation</span>
+                    <p>All pages pass W3C HTML validation with zero errors</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">CSS3 Validation</span>
+                    <p>External stylesheets validated through W3C CSS Validator</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Accessibility Standards</span>
+                    <p>WCAG 2.1 AA compliance verified through automated and manual testing</p>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-tag">Performance Standards</span>
+                    <p>Optimized images, minified CSS, and efficient code structure</p>
+                </div>
+            </div>
+
+            <h3>Content Guidelines Compliance</h3>
+            <ul>
+                <li>All images sourced from royalty-free resources with proper attribution</li>
+                <li>Content reviewed for accuracy and appropriateness</li>
+                <li>Privacy considerations implemented in form handling</li>
+                <li>Cross-browser compatibility tested on major browsers</li>
+            </ul>
+        </section>
+
+        <section id="references" class="section">
+            <h2>References</h2>
+            
+            <div class="reference-list">
+                <div class="reference-item">
+                    <strong>W3C HTML5 Specification</strong><br>
+                    World Wide Web Consortium. (2024). HTML5: A vocabulary and associated APIs for HTML and XHTML. Retrieved from https://www.w3.org/TR/html5/
+                </div>
+                
+                <div class="reference-item">
+                    <strong>CSS Grid Layout Module</strong><br>
+                    W3C. (2024). CSS Grid Layout Module Level 1. Retrieved from https://www.w3.org/TR/css-grid-1/
+                </div>
+                
+                <div class="reference-item">
+                    <strong>Web Content Accessibility Guidelines (WCAG) 2.1</strong><br>
+                    W3C. (2024). Web Content Accessibility Guidelines (WCAG) 2.1. Retrieved from https://www.w3.org/WAI/WCAG21/quickref/
+                </div>
+                
+                <div class="reference-item">
+                    <strong>University of Westminster Lecture Notes</strong><br>
+                    Economou, D. (2024). Web Design and Development Course Materials. University of Westminster, School of Computer Science & Engineering.
+                </div>
+                
+                <div class="reference-item">
+                    <strong>UN Sustainable Development Goals</strong><br>
+                    United Nations. (2024). Goal 3: Ensure healthy lives and promote well-being for all at all ages. Retrieved from https://sdgs.un.org/goals/goal3
+                </div>
+                
+                <div class="reference-item">
+                    <strong>iStock Photo Resources</strong><br>
+                    Getty Images. (2024). Health and wellness stock photography. Retrieved from https://www.istockphoto.com/
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <a href="#" class="go-top">↑</a>
+</body>
+</html>

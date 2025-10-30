@@ -1,0 +1,1153 @@
+<!-- HTML5 document type declaration -->
+<!DOCTYPE html>
+<!-- Root HTML element with language set to English -->
+<html lang="en">
+
+<head>
+    <!-- Character encoding set to UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- Viewport configuration for responsive design on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the page that appears in the browser tab -->
+    <title>User Profile - Health & Well-being</title>
+    <!-- Embedded CSS styles for layout and design -->
+    <style>
+        /* Global reset and box-sizing setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body background, font, and padding to account for fixed navbar */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1d897c7e 0%, #36930b 100%);
+            min-height: 100vh;
+            padding-top: 120px;
+            margin: 0;
+        }
+
+        /* Container centers the page content and applies horizontal padding */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles for fixed top navigation with visual effects */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 80px;
+        }
+
+        /* Layout of the container within the header */
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+        }
+
+        /* Logo section: aligns logo and title horizontally */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        /* Logo image styling with hover animation */
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        /* Logo animation effect on hover */
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        /* Website title with gradient text styling */
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        /* Navbar container relative positioning */
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* Navigation menu styling with blurred background */
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+        }
+
+        /* Each menu item positioning */
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        /* Link styles with transition and layout control */
+        .navbar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Animated background effect on hover (before pseudo-element) */
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        /* Activate hover background animation */
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        /* Text hover effect */
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active link appearance with animation */
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        /* Remove hover animation from active link */
+        .navbar a.active::before {
+            display: none;
+        }
+
+        /* Ripple effect on click (after pseudo-element) */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        /* Show ripple when clicked */
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Decorative dot under navbar to enhance hover feel */
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Animate dot on navbar hover */
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* Profile header container */
+        .profile-header {
+            background: white;
+            /* Set background color to white */
+            border-radius: 20px;
+            /* Round the corners with 20px radius */
+            padding: 30px;
+            /* Add 30px padding inside the container */
+            margin-bottom: 30px;
+            /* Add 30px space below the container */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            /* Apply subtle shadow for depth */
+            display: flex;
+            /* Use flexbox layout */
+            align-items: center;
+            /* Vertically center align items */
+            gap: 30px;
+            /* Horizontal gap of 30px between flex items */
+            transition: transform 0.3s ease;
+            /* Smooth transition for transform changes */
+        }
+
+        /* Hover effect on profile header */
+        .profile-header:hover {
+            transform: translateY(-5px);
+            /* Move container up by 5px on hover */
+        }
+
+        /* Profile avatar container */
+        .profile-avatar {
+            width: 300px;
+            /* Fixed width of 300px */
+            height: 300px;
+            /* Fixed height of 300px */
+            border-radius: 50%;
+            /* Make container circular */
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            /* Gradient background */
+            display: flex;
+            /* Use flexbox */
+            align-items: center;
+            /* Center content vertically */
+            justify-content: center;
+            /* Center content horizontally */
+            font-size: 60px;
+            /* Font size for fallback content (if any) */
+            color: white;
+            /* Text color inside avatar */
+            flex-shrink: 0;
+            /* Prevent shrinking when container resizes */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            /* Add shadow for depth */
+            overflow: hidden;
+            /* Hide overflow (for rounded image edges) */
+        }
+
+        /* Image inside avatar */
+        .profile-avatar img {
+            width: 100%;
+            /* Make image fill the width of container */
+            height: 100%;
+            /* Make image fill the height of container */
+            object-fit: cover;
+            /* Crop image to cover container without distortion */
+            object-position: center;
+            /* Center image within container */
+        }
+
+        /* Profile name styling */
+        .profile-info h1 {
+            font-size: 2.5em;
+            /* Large font size for the name */
+            color: #2c3e50;
+            /* Dark blue-gray text color */
+            margin-bottom: 10px;
+            /* Space below the name */
+        }
+
+        /* Profile role text */
+        .profile-role {
+            font-size: 1.3em;
+            /* Medium font size for role */
+            color: #7f8c8d;
+            /* Grayish text color */
+            margin-bottom: 15px;
+            /* Space below the role */
+        }
+
+        /* Profile introduction paragraph */
+        .profile-intro {
+            font-size: 1.1em;
+            /* Slightly larger than normal font size */
+            line-height: 1.6;
+            /* Increased line height for readability */
+            color: #555;
+            /* Medium gray text color */
+        }
+
+        /* Grid container for main content sections */
+        .content-grid {
+            display: grid;
+            /* Use CSS grid layout */
+            grid-template-columns: 1fr 1fr;
+            /* Two equal-width columns */
+            gap: 30px;
+            /* Gap of 30px between grid items */
+            margin-bottom: 30px;
+            /* Space below the grid */
+        }
+
+        /* Card container style */
+        .card {
+            background: white;
+            /* White background */
+            border-radius: 15px;
+            /* Rounded corners with 15px radius */
+            padding: 25px;
+            /* Inner padding */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            transition: all 0.3s ease;
+            /* Smooth transition for all properties */
+        }
+
+        /* Card hover effect */
+        .card:hover {
+            transform: translateY(-5px);
+            /* Move card up slightly */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            /* Stronger shadow on hover */
+        }
+
+        /* Card heading style */
+        .card h3 {
+            color: #2c3e50;
+            /* Dark blue-gray color */
+            margin-bottom: 20px;
+            /* Space below heading */
+            font-size: 1.4em;
+            /* Slightly larger font size */
+            display: flex;
+            /* Use flex layout */
+            align-items: center;
+            /* Vertically center items */
+            gap: 10px;
+            /* Space between flex items */
+        }
+
+
+        /* Skill item container */
+        .skill-item {
+            margin-bottom: 15px;
+            /* Space below each skill item */
+        }
+
+        /* Skill name container */
+        .skill-name {
+            display: flex;
+            /* Use flexbox for horizontal layout */
+            justify-content: space-between;
+            /* Space out elements to edges */
+            margin-bottom: 5px;
+            /* Space below the skill name */
+            font-weight: 600;
+            /* Semi-bold font weight */
+        }
+
+        /* Skill bar background container */
+        .skill-bar {
+            height: 8px;
+            /* Fixed height of 8px */
+            background: #ecf0f1;
+            /* Light gray background color */
+            border-radius: 4px;
+            /* Rounded corners */
+            overflow: hidden;
+            /* Hide overflow (for progress fill) */
+        }
+
+        /* Skill progress bar (colored fill) */
+        .skill-progress {
+            height: 100%;
+            /* Fill the height of skill-bar container */
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            /* Green to blue gradient */
+            border-radius: 4px;
+            /* Rounded corners matching container */
+            transition: width 0.8s ease;
+            /* Smooth width change transition */
+        }
+
+        /* Remove default list styles for goals and experience lists */
+        .goals-list,
+        .experience-list {
+            list-style: none;
+            /* No bullets or numbers */
+        }
+
+        /* Each item in goals and experience lists */
+        .goals-list li,
+        .experience-list li {
+            padding: 10px 0;
+            /* Vertical padding for spacing */
+            border-bottom: 1px solid #ecf0f1;
+            /* Light gray bottom border */
+            display: flex;
+            /* Flexbox for horizontal layout */
+            align-items: center;
+            /* Vertically center items */
+            gap: 10px;
+            /* Space between flex items */
+        }
+
+        /* Remove bottom border from last item in goals and experience lists */
+        .goals-list li:last-child,
+        .experience-list li:last-child {
+            border-bottom: none;
+            /* No border on last item */
+        }
+
+        /* Grid container for volunteering cards */
+        .volunteering-grid {
+            display: grid;
+            /* Use CSS grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            /* Responsive columns, min 250px wide */
+            gap: 20px;
+            /* Space between grid items */
+            margin-bottom: 30px;
+            /* Space below the grid */
+        }
+
+        /* Individual volunteering card style */
+        .volunteering-card {
+            background: white;
+            /* White background */
+            border-radius: 15px;
+            /* Rounded corners */
+            padding: 20px;
+            /* Inner padding */
+            text-align: center;
+            /* Center text inside card */
+            transition: all 0.3s ease;
+            /* Smooth transitions for all properties */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+        }
+
+        /* Hover effect on volunteering cards */
+        .volunteering-card:hover {
+            transform: scale(1.05);
+            /* Slightly enlarge card */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            /* Stronger shadow */
+        }
+
+        /* SDG icon container */
+        .sdg-icon {
+            width: 60px;
+            /* Fixed width */
+            height: 60px;
+            /* Fixed height */
+            margin: 0 auto 15px;
+            /* Center horizontally with bottom margin */
+            border-radius: 50%;
+            /* Make circular */
+            display: flex;
+            /* Flexbox layout */
+            align-items: center;
+            /* Center content vertically */
+            justify-content: center;
+            /* Center content horizontally */
+            font-size: 24px;
+            /* Icon font size */
+            color: white;
+            /* White icon color */
+        }
+
+        /* SDG 1 icon background color (No Poverty) */
+        .sdg-1 {
+            background: #e5243b;
+            /* Bright red */
+        }
+
+        /* SDG 3 icon background color (Good Health and Well-being) */
+        .sdg-3 {
+            background: #4c9f38;
+            /* Green */
+        }
+
+        /* SDG 6 icon background color (Clean Water and Sanitation) */
+        .sdg-6 {
+            background: #26bde2;
+            /* Blue */
+        }
+
+        /* SDG 11 icon background color (Sustainable Cities and Communities) */
+        .sdg-11 {
+            background: #fd9d24;
+            /* Orange */
+        }
+
+        /* SDG 16 icon background color (Peace, Justice and Strong Institutions) */
+        .sdg-16 {
+            background: #00689d;
+            /* Dark blue */
+        }
+
+
+        /* Container for interests section */
+        .interests-section {
+            background: white;
+            /* White background */
+            border-radius: 15px;
+            /* Rounded corners */
+            padding: 25px;
+            /* Inner padding */
+            margin-bottom: 30px;
+            /* Space below section */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for depth */
+        }
+
+        /* Grid layout for interest items */
+        .interests-grid {
+            display: grid;
+            /* Use CSS grid */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            /* Responsive columns with min width 150px */
+            gap: 20px;
+            /* Space between grid items */
+            margin-top: 20px;
+            /* Space above grid */
+        }
+
+        /* Each interest item styling */
+        .interest-item {
+            text-align: center;
+            /* Center text horizontally */
+            padding: 20px;
+            /* Inner padding */
+            border-radius: 10px;
+            /* Rounded corners */
+            background: #f8f9fa;
+            /* Light gray background */
+            transition: all 0.3s ease;
+            /* Smooth transition on changes */
+            cursor: pointer;
+            /* Cursor changes to pointer on hover */
+        }
+
+        /* Hover effect for interest items */
+        .interest-item:hover {
+            background: #e3f2fd;
+            /* Light blue background on hover */
+            transform: translateY(-3px);
+            /* Slightly raise the item */
+        }
+
+        /* Icon inside interest item */
+        .interest-icon {
+            font-size: 40px;
+            /* Large icon size */
+            margin-bottom: 10px;
+            /* Space below icon */
+            display: block;
+            /* Make icon a block element */
+        }
+
+        /* Container for calendar section */
+        .calendar-section {
+            background: white;
+            /* White background */
+            border-radius: 15px;
+            /* Rounded corners */
+            padding: 25px;
+            /* Inner padding */
+            margin-bottom: 30px;
+            /* Space below section */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for depth */
+        }
+
+        /* Grid layout for calendar days */
+        .calendar {
+            display: grid;
+            /* Use CSS grid */
+            grid-template-columns: repeat(7, 1fr);
+            /* 7 equal columns (days of week) */
+            gap: 10px;
+            /* Space between calendar cells */
+            margin-top: 20px;
+            /* Space above calendar grid */
+        }
+
+        /* Calendar header for day names */
+        .calendar-header {
+            text-align: center;
+            /* Center text */
+            font-weight: bold;
+            /* Bold font */
+            padding: 10px;
+            /* Padding inside header */
+            background: #f8f9fa;
+            /* Light gray background */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        /* Each calendar day cell */
+        .calendar-day {
+            text-align: center;
+            /* Center text */
+            padding: 15px 10px;
+            /* Vertical and horizontal padding */
+            border-radius: 5px;
+            /* Rounded corners */
+            background: #f8f9fa;
+            /* Light gray background */
+            transition: all 0.3s ease;
+            /* Smooth transition */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+        }
+
+        /* Hover effect on calendar day */
+        .calendar-day:hover {
+            background: #4CAF50;
+            /* Green background on hover */
+            color: white;
+            /* White text color */
+        }
+
+        /* Styling for available calendar days */
+        .calendar-day.available {
+            background: #c8e6c9;
+            /* Light green background */
+            color: #2e7d32;
+            /* Dark green text */
+        }
+
+        /* Container for contact form */
+        .contact-form {
+            background: white;
+            /* White background */
+            border-radius: 15px;
+            /* Rounded corners */
+            padding: 25px;
+            /* Inner padding */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for depth */
+        }
+
+        /* Grouping for form elements */
+        .form-group {
+            margin-bottom: 20px;
+            /* Space below each form group */
+        }
+
+        /* Labels inside form groups */
+        .form-group label {
+            display: block;
+            /* Make label a block element */
+            margin-bottom: 8px;
+            /* Space below label */
+            font-weight: 600;
+            /* Semi-bold font */
+            color: #2c3e50;
+            /* Dark blue-gray text color */
+        }
+
+        /* Input fields and textarea inside form groups */
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            /* Full width of container */
+            padding: 12px;
+            /* Inner padding */
+            border: 2px solid #ecf0f1;
+            /* Light gray border */
+            border-radius: 8px;
+            /* Rounded corners */
+            font-size: 16px;
+            /* Font size */
+            transition: border-color 0.3s ease;
+            /* Smooth border color change */
+        }
+
+        /* Focus style for input and textarea */
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            /* Remove default outline */
+            border-color: #4CAF50;
+            /* Green border on focus */
+        }
+
+        /* Container for form buttons */
+        .form-buttons {
+            display: flex;
+            /* Flexbox layout for buttons */
+            gap: 15px;
+            /* Space between buttons */
+            margin-top: 25px;
+            /* Space above buttons */
+        }
+
+        /* Base button styling */
+        .btn {
+            padding: 12px 30px;
+            /* Padding inside buttons */
+            border: none;
+            /* Remove border */
+            border-radius: 25px;
+            /* Fully rounded corners */
+            font-size: 16px;
+            /* Font size */
+            font-weight: 600;
+            /* Semi-bold font */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            transition: all 0.3s ease;
+            /* Smooth transitions */
+        }
+
+        /* Primary button styling */
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            /* Green-blue gradient background */
+            color: white;
+            /* White text */
+        }
+
+        /* Hover effect for primary button */
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            /* Slightly raise button */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            /* Shadow effect */
+        }
+
+        /* Secondary button styling */
+        .btn-secondary {
+            background: #95a5a6;
+            /* Gray background */
+            color: white;
+            /* White text */
+        }
+
+        /* Hover effect for secondary button */
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            /* Darker gray on hover */
+        }
+
+        /* Footer container styling */
+        .footer {
+            text-align: center;
+            /* Center text */
+            padding: 20px;
+            /* Inner padding */
+            color: white;
+            /* White text color */
+            margin-top: 40px;
+            /* Space above footer */
+        }
+
+
+        .footer a {
+            color: #fff;
+            /* White text color */
+            text-decoration: none;
+            /* Remove underline from links */
+            padding: 10px 20px;
+            /* Padding inside links */
+            background: rgba(255, 255, 255, 0.2);
+            /* Semi-transparent white background */
+            border-radius: 20px;
+            /* Rounded corners */
+            transition: all 0.3s ease;
+            /* Smooth transitions on hover */
+        }
+
+        .footer a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            /* Darker background on hover */
+        }
+
+        /* Responsive styles for devices with max width 768px */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                /* Stack content in single column */
+            }
+
+            .profile-header {
+                flex-direction: column;
+                /* Stack avatar and info vertically */
+                text-align: center;
+                /* Center align text */
+            }
+
+            .calendar {
+                grid-template-columns: repeat(7, 1fr);
+                /* 7 equal columns for days */
+                gap: 5px;
+                /* Smaller gaps between calendar days */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container"> <!-- Container to center content and add padding -->
+            <div class="logo-section"> <!-- Logo and site title area -->
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo"> <!-- Logo image -->
+                <h1>HealthWell</h1> <!-- Site name -->
+            </div>
+            <nav class="navbar"> <!-- Navigation bar -->
+                <ul>
+                    <li><a href="home.html">Home</a></li> <!-- Link to Home page -->
+                    <li><a href="volunteer.html">Volunteer</a></li> <!-- Volunteer page -->
+                    <li><a href="table.html">Resources</a></li> <!-- Resources page -->
+                    <li><a href="profile.html" class="active">Profile</a></li> <!-- Current page link -->
+                    <li><a href="feedback.html">Feedback</a></li> <!-- Feedback page -->
+                    <li><a href="sitemap.html">Sitemap</a></li> <!-- Sitemap page -->
+                    <li><a href="team.html">Team</a></li> <!-- Team page -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container"> <!-- Main content container -->
+        <!-- Profile Header -->
+        <div class="profile-header"> <!-- Profile section header with avatar and info -->
+            <div class="profile-avatar"> <!-- Profile image container -->
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80"
+                    alt="Ishani Perera - Senior Health Officer"> <!-- Profile picture -->
+            </div>
+            <div class="profile-info"> <!-- Profile information container -->
+                <h1>Ishani Perera</h1> <!-- Name -->
+                <div class="profile-role">Senior Health Officer</div> <!-- Role/Job Title -->
+                <p class="profile-intro">📍 <b> Gampaha, Sri Lanka </b><br><b>📧 info.ishani@health.com</b><br>📞
+                    <b>+7102354234</b><br>🌐<b> www.healthcare.com</b><br><br>I'm a Senior Health Officer at the World
+                    Health Organization
+                    Regional Office with over 5 years of experience in managing public health initiatives, leading
+                    disease prevention programs, and improving healthcare access in underserved areas.</br></br>
+                </p> <!-- Intro paragraph with location, email, phone, website, and short bio -->
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid"> <!-- Grid layout container for cards -->
+
+            <!-- Skills Section -->
+            <div class="card"> <!-- Card container for skills -->
+                <h3>🎯 Skills & Expertise</h3> <!-- Section title -->
+
+                <div class="skill-item"> <!-- Single skill entry -->
+                    <div class="skill-name"> <!-- Skill label and percentage -->
+                        <span>Community Health</span> <!-- Skill name -->
+                        <span>95%</span> <!-- Skill proficiency -->
+                    </div>
+                    <div class="skill-bar"> <!-- Skill progress bar container -->
+                        <div class="skill-progress" style="width: 95%"></div> <!-- Skill progress fill -->
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Health Education</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Disease Prevention</span>
+                        <span>88%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 88%"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Mental Health Support</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Section -->
+            <div class="card"> <!-- Card container for professional goals -->
+                <h3>🚀 Professional Goals</h3> <!-- Section title -->
+                <ul class="goals-list"> <!-- List of goals -->
+                    <li>
+                        <span style="color: #4CAF50;">✓</span> <!-- Completed goal icon -->
+                        Establish community health clinics in underserved areas
+                    </li>
+                    <li>
+                        <span style="color: #4CAF50;">✓</span>
+                        Develop health education programs for schools
+                    </li>
+                    <li>
+                        <span style="color: #ff9800;">⏳</span> <!-- Ongoing goal icon -->
+                        Launch digital health awareness campaigns
+                    </li>
+                    <li>
+                        <span style="color: #ff9800;">⏳</span>
+                        Create sustainable healthcare delivery models
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="card"> <!-- Card for work experience and education -->
+                <h3>💼 Experience & Background</h3> <!-- Section heading -->
+                <ul class="experience-list"> <!-- Experience list -->
+                    <li>
+                        <span style="color: #2196F3;">🏥</span> <!-- Hospital icon -->
+                        <div>
+                            <strong>Senior Health Officer</strong><br>
+                            <small>WHO Regional Office - 5 years</small> <!-- Role and duration -->
+                        </div>
+                    </li>
+                    <li>
+                        <span style="color: #4CAF50;">👩‍⚕️</span> <!-- Health worker icon -->
+                        <div>
+                            <strong>Community Health Coordinator</strong><br>
+                            <small>Local Health Department - 3 years</small>
+                        </div>
+                    </li>
+                    <li>
+                        <span style="color: #ff9800;">🎓</span> <!-- Graduation cap icon -->
+                        <div>
+                            <strong>PhD in Public Health</strong><br>
+                            <small>University of Global Health - 2018</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Frustrations Section -->
+            <div class="card"> <!-- Card for key challenges faced -->
+                <h3>⚠️ Key Challenges</h3> <!-- Section heading -->
+                <ul class="experience-list"> <!-- List of challenges -->
+                    <li>
+                        <span style="color: #f44336;">❌</span> <!-- Cross icon, problem -->
+                        Limited healthcare access in rural communities
+                    </li>
+                    <li>
+                        <span style="color: #f44336;">❌</span>
+                        Insufficient funding for preventive care programs
+                    </li>
+                    <li>
+                        <span style="color: #f44336;">❌</span>
+                        Health misinformation spreading on social media
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Volunteering Section -->
+        <div class="card"> <!-- Card for supported Sustainable Development Goals -->
+            <h3>🤝 UN Sustainable Development Goals I Support</h3>
+            <div class="volunteering-grid"> <!-- Grid container -->
+                <div class="volunteering-card"> <!-- Single SDG card -->
+                    <div class="sdg-icon sdg-1">1</div> <!-- SDG number with styling -->
+                    <h4>No Poverty</h4> <!-- Goal title -->
+                    <p>Supporting healthcare access for low-income families</p> <!-- Description -->
+                </div>
+                <div class="volunteering-card">
+                    <div class="sdg-icon sdg-3">3</div>
+                    <h4>Good Health</h4>
+                    <p>Promoting wellness and disease prevention programs</p>
+                </div>
+                <div class="volunteering-card">
+                    <div class="sdg-icon sdg-6">6</div>
+                    <h4>Clean Water</h4>
+                    <p>Ensuring safe drinking water in health facilities</p>
+                </div>
+                <div class="volunteering-card">
+                    <div class="sdg-icon sdg-11">11</div>
+                    <h4>Sustainable Cities</h4>
+                    <p>Creating healthy urban environments</p>
+                </div>
+                <div class="volunteering-card">
+                    <div class="sdg-icon sdg-16">16</div>
+                    <h4>Peace & Justice</h4>
+                    <p>Advocating for equitable healthcare policies</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interests Section -->
+        <div class="interests-section"> <!-- Interests container -->
+            <h3>🌟 Health & Well-being Interests</h3> <!-- Section heading -->
+            <div class="interests-grid"> <!-- Grid for interests -->
+                <div class="interest-item"> <!-- Single interest -->
+                    <span class="interest-icon">🏃‍♀️</span> <!-- Icon for fitness -->
+                    <h4>Fitness Programs</h4> <!-- Interest title -->
+                </div>
+                <div class="interest-item">
+                    <span class="interest-icon">🧘‍♀️</span>
+                    <h4>Mental Wellness</h4>
+                </div>
+                <div class="interest-item">
+                    <span class="interest-icon">🥗</span>
+                    <h4>Nutrition Education</h4>
+                </div>
+                <div class="interest-item">
+                    <span class="interest-icon">💊</span>
+                    <h4>Preventive Medicine</h4>
+                </div>
+                <div class="interest-item">
+                    <span class="interest-icon">👶</span>
+                    <h4>Child Health</h4>
+                </div>
+                <div class="interest-item">
+                    <span class="interest-icon">👴</span>
+                    <h4>Elderly Care</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Availability Calendar -->
+        <div class="calendar-section"> <!-- Calendar container -->
+            <h3>📅 Volunteering Availability - July 2025</h3> <!-- Section heading -->
+            <div class="calendar"> <!-- Grid calendar -->
+                <div class="calendar-header">Sun</div> <!-- Day headers -->
+                <div class="calendar-header">Mon</div>
+                <div class="calendar-header">Tue</div>
+                <div class="calendar-header">Wed</div>
+                <div class="calendar-header">Thu</div>
+                <div class="calendar-header">Fri</div>
+                <div class="calendar-header">Sat</div>
+
+                <!-- Empty cells for days before start -->
+                <div class="calendar-day"></div>
+                <div class="calendar-day"></div>
+
+                <!-- Calendar days with availability -->
+                <div class="calendar-day">1</div>
+                <div class="calendar-day available">2</div>
+                <div class="calendar-day available">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day">5</div>
+
+                <div class="calendar-day">6</div>
+                <div class="calendar-day">7</div>
+                <div class="calendar-day">8</div>
+                <div class="calendar-day available">9</div>
+                <div class="calendar-day available">10</div>
+                <div class="calendar-day">11</div>
+                <div class="calendar-day">12</div>
+
+                <div class="calendar-day">13</div>
+                <div class="calendar-day">14</div>
+                <div class="calendar-day">15</div>
+                <div class="calendar-day available">16</div>
+                <div class="calendar-day available">17</div>
+                <div class="calendar-day">18</div>
+                <div class="calendar-day">19</div>
+
+                <div class="calendar-day">20</div>
+                <div class="calendar-day">21</div>
+                <div class="calendar-day">22</div>
+                <div class="calendar-day available">23</div>
+                <div class="calendar-day available">24</div>
+                <div class="calendar-day">25</div>
+                <div class="calendar-day">26</div>
+
+                <div class="calendar-day">27</div>
+                <div class="calendar-day">28</div>
+                <div class="calendar-day">29</div>
+                <div class="calendar-day available">30</div>
+                <div class="calendar-day available">31</div>
+
+                <!-- Empty cells for days after end -->
+                <div class="calendar-day"></div>
+                <div class="calendar-day"></div>
+            </div>
+            <p style="margin-top: 15px; color: #666;">
+                <strong>Green days</strong> indicate availability for volunteering activities
+            </p> <!-- Note for calendar -->
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form"> <!-- Form container -->
+            <h3>📞 Contact Me</h3> <!-- Section heading -->
+            <form> <!-- Contact form -->
+                <div class="form-group"> <!-- Name input group -->
+                    <label for="name">Full Name</label> <!-- Label -->
+                    <input type="text" id="name" name="name" required> <!-- Text input -->
+                </div>
+
+                <div class="form-group"> <!-- Email input group -->
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required> <!-- Email input -->
+                </div>
+
+                <div class="form-group"> <!-- Phone input group -->
+                    <label for="phone">Telephone Number</label>
+                    <input type="tel" id="phone" name="phone"> <!-- Telephone input -->
+                </div>
+
+                <div class="form-group"> <!-- Message textarea -->
+                    <label for="message">Message or Inquiry</label>
+                    <textarea id="message" name="message" rows="5"
+                        placeholder="How can I help you with health and wellness initiatives?"></textarea>
+                    <!-- Text area -->
+                </div>
+
+                <div class="form-buttons"> <!-- Buttons container -->
+                    <button type="submit" class="btn btn-primary">Send Message</button> <!-- Submit button -->
+                    <button type="reset" class="btn btn-secondary">Reset Form</button> <!-- Reset button -->
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer"> <!-- Footer container -->
+            <a href="pageEditor_ST4.html" target="_blank">Visit Page Editor</a> <!-- Footer link -->
+        </div>
+    </div>
+</body>
+
+</html>

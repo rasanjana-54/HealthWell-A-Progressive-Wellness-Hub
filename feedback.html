@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Good Health and Well-being</title>
+    <link rel="stylesheet" href="global.css">
+    <style>
+       /* Navbar background - green line */
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #a4e2877e 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding-top: 120px; /* Space for fixed navbar */
+            margin: 0;
+        }
+
+        /* Enhanced Navigation Bar */
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Header Styles - Fixed */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px; /* Fixed height to prevent jumping */
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px; /* Match header height */
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0; /* Prevent logo from shrinking */
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        /* Fixed h1 styling to prevent clash */
+        header h1 {
+            font-size: 1.6rem; /* Reduced from 1.8rem */
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap; /* Prevent text wrapping */
+            margin-right: 20px; /* Add margin to separate from nav */
+        }
+
+        /* Fixed Navigation */
+        .navbar {
+            position: relative;
+            flex-shrink: 0; /* Prevent navbar from shrinking */
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px; /* Increased padding for bounce space */
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px; /* Fixed minimum height */
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible; /* Changed from hidden to visible for bounce effect */
+        }
+
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px; /* Reduced padding to fit better */
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem; /* Slightly reduced font size */
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        /* Fixed hover effect with sliding background */
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        /* Fixed hover effect - reduced bounce distance */
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px); /* Reduced from -2px */
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Active state with unique animation */
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        /* Ripple effect on click */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Fixed floating navigation indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px; /* Moved up to stay within bounds */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+        /* Feedback-specific styles */
+        .feedback-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .feedback-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .feedback-header p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .feedback-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #E8F5E8;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #F8FFF8;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .form-section h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2E7D32;
+        }
+
+        .required {
+            color: #D32F2F;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+        }
+
+        .rating-section {
+            text-align: center;
+        }
+
+        .rating-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4CAF50;
+        }
+
+        .rating-option label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #45a049, #5db85d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .health-tips {
+            background: #E8F5E8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid #C8E6C9;
+        }
+
+        .health-tips h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+        }
+
+        .health-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .health-tips li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .health-tips li::before {
+            content: "💚";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .feedback-container {
+                padding: 10px;
+            }
+            
+            .feedback-form {
+                padding: 20px;
+            }
+            
+            .feedback-header h1 {
+                font-size: 2em;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .rating-grid {
+                gap: 10px;
+            }
+        }
+
+        /* Error states */
+        .error {
+            border-color: #D32F2F !important;
+            background-color: #FFEBEE;
+        }
+
+        .error-message {
+            color: #D32F2F;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+         /* Footer */
+         .footer-content {
+            text-align: center;
+            padding: 2rem;
+            background: #2c3e50;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html" class="active">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="feedback-container">
+        <div class="feedback-header">
+            <h1>Your Health & Well-being Feedback</h1>
+            <p>Help us improve our health initiatives and services. Your feedback is valuable in promoting better health and well-being for everyone in our community.</p>
+        </div>
+
+        <form class="feedback-form" id="feedbackForm" novalidate>
+            <div class="form-section">
+                <h3>Personal Information</h3>
+                <div class="form-group">
+                    <label for="name">Enter your name: <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Enter your email: <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Website Experience</h3>
+                <div class="form-group">
+                    <label>Was this your first time visiting our health website?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="firstTimeYes" name="firstTime" value="yes">
+                            <label for="firstTimeYes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="firstTimeNo" name="firstTime" value="no">
+                            <label for="firstTimeNo">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Was this website informative and easy to navigate for health information?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="informativeYes" name="informative" value="yes">
+                            <label for="informativeYes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="informativeNo" name="informative" value="no">
+                            <label for="informativeNo">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="improvements">If "No", suggest any improvements for better health information access:</label>
+                    <textarea id="improvements" name="improvements" placeholder="Share your suggestions for improving our health resources..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Health Services Satisfaction</h3>
+                <div class="form-group rating-section">
+                    <label>How satisfied are you with our health information and services? Choose from 0 to 10, with 1 being "Not satisfied at all" and 10 being "Extremely satisfied"</label>
+                    <div class="rating-grid">
+                        <div class="rating-option">
+                            <input type="radio" id="rating1" name="satisfaction" value="1">
+                            <label for="rating1">1</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating2" name="satisfaction" value="2">
+                            <label for="rating2">2</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating3" name="satisfaction" value="3">
+                            <label for="rating3">3</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating4" name="satisfaction" value="4">
+                            <label for="rating4">4</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating5" name="satisfaction" value="5">
+                            <label for="rating5">5</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating6" name="satisfaction" value="6">
+                            <label for="rating6">6</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating7" name="satisfaction" value="7">
+                            <label for="rating7">7</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating8" name="satisfaction" value="8">
+                            <label for="rating8">8</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating9" name="satisfaction" value="9">
+                            <label for="rating9">9</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating10" name="satisfaction" value="10">
+                            <label for="rating10">10</label>
+                        </div>
+                    </div>
+                    <div class="rating-scale">
+                        <span>Not satisfied at all</span>
+                        <span>Extremely satisfied</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Would you recommend our health resources to others?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="recommendYes" name="recommend" value="yes">
+                            <label for="recommendYes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="recommendNo" name="recommend" value="no">
+                            <label for="recommendNo">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Communication Preferences</h3>
+                <div class="form-group">
+                    <label for="updates">Would you like to receive updates about health initiatives and wellness programs?</label>
+                    <select id="updates" name="updates">
+                        <option value="">Please select an option</option>
+                        <option value="email">Yes - via Email</option>
+                        <option value="newsletter">Yes - Monthly Newsletter</option>
+                        <option value="notifications">Yes - Website Notifications</option>
+                        <option value="no">No, thank you</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="questions">Do you have any additional questions about health and well-being or requests for specific health topics?</label>
+                    <textarea id="questions" name="questions" placeholder="Share any health topics you'd like us to cover or questions you have..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Health Interest Areas</h3>
+                <div class="form-group">
+                    <label>Which health topics are you most interested in? (Check all that apply)</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="mentalHealth" name="interests" value="mental-health">
+                        <label for="mentalHealth">Mental Health & Wellness</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="physicalFitness" name="interests" value="physical-fitness">
+                        <label for="physicalFitness">Physical Fitness & Exercise</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="nutrition" name="interests" value="nutrition">
+                        <label for="nutrition">Nutrition & Healthy Eating</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="preventiveCare" name="interests" value="preventive-care">
+                        <label for="preventiveCare">Preventive Healthcare</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="communityHealth" name="interests" value="community-health">
+                        <label for="communityHealth">Community Health Programs</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Feedback</button>
+        </form>
+
+        <div class="health-tips">
+            <h3>Health & Well-being Tips</h3>
+            <ul>
+                <li>Stay hydrated by drinking at least 8 glasses of water daily</li>
+                <li>Get 7-9 hours of quality sleep each night for optimal</li>
+                </ul>
+        </div>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 HealthWell. All rights reserved</p>
+                <div class="footer-links">
+                   <p><a href="pageEditor_ST3.html">Student 3 Editor</a></p>
+                 </div>
+            </div>
+        </footer>

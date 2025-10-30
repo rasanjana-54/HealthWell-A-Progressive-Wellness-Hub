@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Well - Sitemap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #0c2710 0%, #39693e 50%, #5da369 100%);
+            min-height: 100vh;
+            padding-top: 90px;
+            position: relative;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 80px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo img:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .site-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .nav-item:hover::before {
+            left: 0;
+        }
+
+        .nav-item:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .nav-item.active::before {
+            display: none;
+        }
+
+        @keyframes activeGlow {
+            0% {
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 4px 20px rgba(76, 175, 80, 0.6);
+            }
+        }
+
+        /* Sitemap Container */
+        .sitemap-container {
+            position: relative;
+            width: 100%;
+            max-width: 2000px;
+            height: 650px;
+            margin: 40px auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8faff 50%, #e3f2fd 100%);
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(76, 175, 80, 0.15);
+            overflow: hidden;
+        }
+
+        /* Grid Pattern Background */
+        .sitemap-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(76, 175, 80, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(76, 175, 80, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        /* Wave Animation */
+        .sitemap-container::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(76, 175, 80, 0.05) 25%,
+                    rgba(76, 175, 80, 0.1) 50%,
+                    rgba(76, 175, 80, 0.05) 75%,
+                    transparent 100%);
+            border-radius: 0 0 15px 15px;
+            animation: wave 4s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* Base Sitemap Box Styles */
+        .sitemap-box {
+            position: absolute;
+            background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            color: #2e7d32;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .sitemap-box:nth-child(even) {
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        .sitemap-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, #ffffff, #4CAF50, #66BB6A, #ffffff);
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sitemap-box:active {
+            transform: scale(0.95) translateY(1px);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        .sitemap-box:hover {
+            background: linear-gradient(145deg, #e8f5e8 0%, #c8e6c9 100%);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+            border-color: #388e3c;
+            color: #1b5e20;
+        }
+
+        .sitemap-box:hover::before {
+            opacity: 0.3;
+        }
+
+        .sitemap-box:focus {
+            outline: 3px solid #ff6b35;
+            outline-offset: 2px;
+        }
+
+        /* Splash Screen and Home Page */
+        .splash-screen {
+            top: 40px;
+            left: 650px;
+            width: 140px;
+            height: 40px;
+            background: linear-gradient(145deg, #388e3c 0%, #2e7d32 100%);
+            color: white;
+            font-weight: bold;
+            border-color: #1b5e20;
+        }
+
+        .splash-screen:hover {
+            background: linear-gradient(145deg, #2e7d32 0%, #1b5e20 100%);
+            color: white;
+        }
+
+        .home-page {
+            top: 100px;
+            left: 650px;
+            width: 140px;
+            height: 40px;
+            background: linear-gradient(145deg, #4CAF50 0%, #388e3c 100%);
+            color: white;
+            font-weight: bold;
+            border-color: #2e7d32;
+        }
+
+        .home-page:hover {
+            background: linear-gradient(145deg, #388e3c 0%, #2e7d32 100%);
+            color: white;
+        }
+
+        /* Main Section Boxes */
+        .volunteer {
+            top: 200px;
+            left: 20px;
+        }
+
+        .table {
+            top: 200px;
+            left: 180px;
+        }
+
+        .user-profile {
+            top: 200px;
+            left: 320px;
+        }
+
+        .feedback {
+            top: 200px;
+            left: 480px;
+        }
+
+        .team {
+            top: 200px;
+            left: 640px;
+        }
+
+        .content-page {
+            top: 200px;
+            left: 800px;
+        }
+
+        .sitemap-current {
+            top: 200px;
+            left: 960px;
+        }
+
+        .page-editor {
+            top: 200px;
+            left: 1100px;
+        }
+
+        .validation {
+            top: 200px;
+            left: 1235px;
+        }
+
+        /* Content Pages */
+        .content1,
+        .content2,
+        .content3,
+        .content4 {
+            left: 785px;
+        }
+
+        .content1 {
+            top: 280px;
+        }
+
+        .content2 {
+            top: 340px;
+        }
+
+        .content3 {
+            top: 400px;
+        }
+
+        .content4 {
+            top: 460px;
+        }
+
+        /* Editor Pages */
+        .editor1,
+        .editor2,
+        .editor3,
+        .editor4 {
+            left: 1085px;
+        }
+
+        .editor1 {
+            top: 280px;
+        }
+
+        .editor2 {
+            top: 340px;
+        }
+
+        .editor3 {
+            top: 400px;
+        }
+
+        .editor4 {
+            top: 460px;
+        }
+
+        /* Validation Pages */
+        .validation1,
+        .validation2,
+        .validation3,
+        .validation4 {
+            left: 1235px;
+        }
+
+        .validation1 {
+            top: 280px;
+        }
+
+        .validation2 {
+            top: 340px;
+        }
+
+        .validation3 {
+            top: 400px;
+        }
+
+        .validation4 {
+            top: 460px;
+        }
+
+
+
+        .sitemap-current {
+            top: 200px;
+            left: 990px;
+            width: 110px;
+            height: 45px;
+            font-size: 15px;
+            background: linear-gradient(145deg, #FF6B35 0%, #F7931E 100%) !important;
+            color: white !important;
+            border: 3px solid #FFD700 !important;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6) !important;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(255, 215, 0, 1);
+            }
+        }
+
+        .page-editor {
+            top: 200px;
+            left: 1130px;
+            width: 130px;
+            height: 45px;
+            font-size: 15px;
+        }
+
+        .validation {
+            top: 200px;
+            left: 1290px;
+            width: 130px;
+            height: 45px;
+            font-size: 15px;
+        }
+
+        /* Content Pages */
+        .content1,
+        .content2,
+        .content3,
+        .content4 {
+            width: 160px;
+            height: 35px;
+            left: 800px;
+            background: linear-gradient(145deg, #f39c12 0%, #e67e22 100%);
+            border-color: #d68910;
+            color: white;
+            font-weight: 500;
+        }
+
+        .content1 {
+            top: 280px;
+        }
+
+        .content2 {
+            top: 340px;
+        }
+
+        .content3 {
+            top: 400px;
+        }
+
+        .content4 {
+            top: 460px;
+        }
+
+        /* Editor Pages */
+        .editor1,
+        .editor2,
+        .editor3,
+        .editor4 {
+            width: 160px;
+            height: 35px;
+            left: 1100px;
+            background: linear-gradient(145deg, #9b59b6 0%, #8e44ad 100%);
+            border-color: #7d3c98;
+            color: white;
+            font-weight: 500;
+        }
+
+        .editor1 {
+            top: 280px;
+        }
+
+        .editor2 {
+            top: 340px;
+        }
+
+        .editor3 {
+            top: 400px;
+        }
+
+        .editor4 {
+            top: 460px;
+        }
+
+        /* Validation Pages */
+        .validation1,
+        .validation2,
+        .validation3,
+        .validation4 {
+            width: 160px;
+            height: 35px;
+            left: 1260px;
+            background: linear-gradient(145deg, #e74c3c 0%, #c0392b 100%);
+            border-color: #a93226;
+            color: white;
+            font-weight: 500;
+        }
+
+        .validation1 {
+            top: 280px;
+        }
+
+        .validation2 {
+            top: 340px;
+
+
+
+
+            
+
+
+
+
+
+
+
+
+            
+        }
+
+        .validation3 {
+            top: 400px;
+        }
+
+        .validation4 {
+            top: 460px;
+        }
+
+        /* SVG Connections */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection-line {
+            stroke: #4CAF50;
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 1px 2px rgba(76, 175, 80, 0.2));
+        }
+
+        .arrow-marker {
+            fill: #4CAF50;
+            filter: drop-shadow(0 1px 2px rgba(76, 175, 80, 0.2));
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1700px) {
+            .sitemap-container {
+                width: 95%;
+                max-width: 1520px;
+                transform: scale(0.9);
+                transform-origin: top center;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .sitemap-container {
+                transform: scale(0.8);
+                height: 550px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sitemap-container {
+                transform: scale(0.7);
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sitemap-container {
+                transform: scale(0.5);
+                height: 350px;
+            }
+
+            .navigation {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .nav-item {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">
+                    <img src="images/plus.jpg" alt="Health Well Logo">
+                </div>
+                <h1 class="site-title">HealthWell</h1>
+            </div>
+
+            <nav class="navigation">
+                <a href="home.html" class="nav-item">Home</a>
+                <a href="volunteer.html" class="nav-item">Volunteer</a>
+                <a href="table.html" class="nav-item">Resources</a>
+                <a href="profile.html" class="nav-item">Profile</a>
+                <a href="feedback.html" class="nav-item">Feedback</a>
+                <a href="sitemap.html" class="nav-item active">Sitemap</a>
+                <a href="team.html" class="nav-item">Team</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sitemap Container -->
+    <div class="sitemap-container">
+        <!-- SVG Connections -->
+        <svg class="connections" width="100%" height="100%">
+            <defs>
+                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" class="arrow-marker" />
+                </marker>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:0.8" />
+                    <stop offset="50%" style="stop-color:#66BB6A;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:0.8" />
+                </linearGradient>
+            </defs>
+
+            <!-- Splash to Home connection -->
+            <line x1="725" y1="80" x2="725" y2="100" class="connection-line" marker-end="url(#arrowhead)"
+                stroke="url(#lineGradient)" />
+
+            <!-- Home to main branches -->
+            <line x1="725" y1="140" x2="725" y2="180" class="connection-line" stroke="url(#lineGradient)" />
+            <line x1="115" y1="180" x2="1355" y2="180" class="connection-line" stroke="url(#lineGradient)" />
+
+            <!-- Main line (adjusted total width) -->
+            <line x1="95" y1="180" x2="1315" y2="180" class="connection-line" stroke="url(#lineGradient)" />
+
+            <!-- Vertical lines for each box -->
+            <line x1="95" y1="180" x2="95" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="235" y1="180" x2="235" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="375" y1="180" x2="375" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="535" y1="180" x2="535" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="695" y1="180" x2="695" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="855" y1="180" x2="855" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1015" y1="180" x2="1015" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1155" y1="180" x2="1155" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1315" y1="180" x2="1315" y2="200" class="connection-line" marker-end="url(#arrowhead)" />
+
+            <!-- Content branch connections -->
+            <line x1="855" y1="245" x2="855" y2="280" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="855" y1="315" x2="855" y2="340" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="855" y1="375" x2="855" y2="400" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="855" y1="435" x2="855" y2="460" class="connection-line" marker-end="url(#arrowhead)" />
+
+            <!-- Editor branch connections -->
+            <line x1="1155" y1="245" x2="1155" y2="280" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1155" y1="315" x2="1155" y2="340" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1155" y1="375" x2="1155" y2="400" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1155" y1="435" x2="1155" y2="460" class="connection-line" marker-end="url(#arrowhead)" />
+
+            <!-- Validation branch connections -->
+            <line x1="1315" y1="245" x2="1315" y2="280" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1315" y1="315" x2="1315" y2="340" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1315" y1="375" x2="1315" y2="400" class="connection-line" marker-end="url(#arrowhead)" />
+            <line x1="1315" y1="435" x2="1315" y2="460" class="connection-line" marker-end="url(#arrowhead)" />
+
+        </svg>
+
+        <!-- Main Pages -->
+        <a href="splash.html" class="sitemap-box splash-screen" title="Go to Splash Screen">Splash Screen</a>
+        <a href="home.html" class="sitemap-box home-page" title="Go to Home Page">Home Page</a>
+
+        <!-- Main Sections -->
+        <a href="volunteer.html" class="sitemap-box volunteer" title="Go to Volunteer">Volunteer</a>
+        <a href="table.html" class="sitemap-box table" title="Go to Resources">Resources</a>
+        <a href="profile.html" class="sitemap-box user-profile" title="Go to User Profile">User Profile</a>
+        <a href="feedback.html" class="sitemap-box feedback" title="Go to Feedback">Feedback</a>
+        <a href="team.html" class="sitemap-box team" title="Go to Team">Team</a>
+        <a href="content.html" class="sitemap-box content-page" title="Go to Content Pages">Content Pages</a>
+        <a href="sitemap.html" class="sitemap-box sitemap-current" title="Current: Sitemap">Sitemap</a>
+        <a href="editor.html" class="sitemap-box page-editor" title="Go to Page Editor">Page Editor</a>
+        <a href="validation.html" class="sitemap-box validation" title="Go to Validation">Validation</a>
+
+        <!-- Content Pages -->
+        <a href="content_ST1.html" class="sitemap-box content1" title="Go to Content 1">Content 01</a>
+        <a href="content_ST2.html" class="sitemap-box content2" title="Go to Content 2">Content 02</a>
+        <a href="content_ST3.html" class="sitemap-box content3" title="Go to Content 3">Content 03</a>
+        <a href="content_ST4.html" class="sitemap-box content4" title="Go to Content 4">Content 04</a>
+
+        <!-- Editor Pages -->
+        <a href="pageEditor_ST1.html" class="sitemap-box editor1" title="Go to Editor 1">Editor 01</a>
+        <a href="pageEditor_ST2.html" class="sitemap-box editor2" title="Go to Editor 2">Editor 02</a>
+        <a href="pageEditor_ST3.html" class="sitemap-box editor3" title="Go to Editor 3">Editor 03</a>
+        <a href="pageEditor_ST4.html" class="sitemap-box editor4" title="Go to Editor 4">Editor 04</a>
+
+        <!-- Validation Pages -->
+        <a href="validation_ST1.html" class="sitemap-box validation1" title="Go to Validation 1">Validation 01</a>
+        <a href="validation_ST2.html" class="sitemap-box validation2" title="Go to Validation 2">Validation 02</a>
+        <a href="validation_ST3.html" class="sitemap-box validation3" title="Go to Validation 3">Validation 03</a>
+        <a href="validation_ST4.html" class="sitemap-box validation4" title="Go to Validation 4">Validation 04</a>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="4; url=home.html">
+    <title>HealthWell - Good Health and Well-being</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.9), rgba(76, 175, 80, 0.9)), 
+                        url('images/health-bg2.jpg');
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* dark semi-transparent layer */
+            z-index: 0;
+        }
+
+
+        .splash-container {
+            text-align: center;
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .website-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .website-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .website-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .mission-statement {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .group-members {
+            margin-bottom: 30px;
+        }
+
+        .members-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #E8F5E8;
+        }
+
+        .members-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .member-name {
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .member-name:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .loading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .health-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 65px;
+            opacity: 0.5;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
+        .floating-icon:nth-child(3) { bottom: 15%; left: 10%; animation-delay: 2s; }
+        .floating-icon:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 3s; }
+        .floating-icon:nth-child(5) { top: 45%; left: 5%; animation-delay: 4s; }
+        .floating-icon:nth-child(6) { top: 53%; right: 5%; animation-delay: 5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(3deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .splash-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .website-title {
+                font-size: 2.5rem;
+            }
+            
+            .website-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .mission-statement {
+                font-size: 1rem;
+            }
+            
+            .members-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="health-icons">
+        <div class="floating-icon">🏥</div>
+        <div class="floating-icon">❤️</div>
+        <div class="floating-icon">🩺</div>
+        <div class="floating-icon">💊</div>
+        <div class="floating-icon">🧬</div>
+        <div class="floating-icon">🌱</div>
+    </div>
+
+    <div class="background-overlay"></div>
+
+    <div class="splash-container">
+        <div class="logo-container">
+            <div class="website-logo">
+                <img src="./images/plus.jpg" alt="good health logo" class="logo">
+            </div>
+            <h1 class="website-title">HealthWell</h1>
+            <p class="website-subtitle">Good Health and Well-being</p>
+        </div>
+
+        <div class="mission-statement">
+            <p>Dedicated to promoting wellness, healthcare accessibility, and sustainable health practices for all. Together, we're building a healthier future through awareness, action, and community support.</p>
+        </div>
+
+        <div class="group-members">
+            <h2 class="members-title">Development Team</h2>
+            <div class="members-list">
+                <div class="member-name">Student 1 - H.T.H.ZOYSA</div>
+                <div class="member-name">Student 2 - K.V.R.Nimsara</div>
+                <div class="member-name">Student 3 - Sandinu Nethmika</div>
+                <div class="member-name">Student 4 - K.I.U.Perera</div>
+            </div>
+        </div>
+
+        <div class="loading-container">
+            <span class="loading-text">Loading Home Page...</span>
+            <div class="loader"></div>
+        </div>
+    </div>
+</body>
+</html>

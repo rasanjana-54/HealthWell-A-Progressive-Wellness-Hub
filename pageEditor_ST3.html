@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student 3 - Page Editor | HealthWell Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #a4e2877e 0%, #ffffff 100%);
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .containername {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            justify-content: center;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            justify-content: center;
+        }
+        .student-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .top-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Global Navigation Bar (Header) */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px;
+        }
+
+        header .top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        /* Fixed Navigation for Global Navbar */
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes activeGlow {
+            0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+            100% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6); }
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #4CAF50;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            color: #4CAF50;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.1);
+        }
+
+        .feature-item h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Page Links */
+        .page-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .page-link {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .page-link:hover {
+            background: linear-gradient(135deg, #45a049, #388e3c);
+            transform: translateY(-2px);
+        }
+
+        /* Code Snippet */
+        .code-snippet {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        /* Special Sections */
+        .challenge-section {
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            border-left-color: #23d647;
+        }
+
+        .accessibility-section {
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            border-left-color: #23d647;
+        }
+
+        .compliance-section {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            border-left-color: #dc3545;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color:#4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color:  #ecf0f1;
+        }
+
+
+        /* CSS-Only Quick Navigation */
+        .quick-nav {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #2e7d32;
+            text-align: center;
+            position: sticky;
+            top: 90px;
+            z-index: 100;
+        }
+
+        .quick-nav h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e8f5e8;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .quick-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .quick-nav li {
+            margin: 0;
+        }
+
+        .quick-nav a {
+            color: #388e3c;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            border: 2px solid #dcedc8;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            white-space: nowrap;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* CSS-only hover and focus effects */
+        .quick-nav a:hover,
+        .quick-nav a:focus {
+            background: #e8f5e8;
+            border-color: #a5d6a7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: #2e7d32;
+        }
+
+        /* Active state using :target pseudo-class */
+        .section:target ~ .quick-nav a[href="#overview"],
+        #overview:target ~ .quick-nav a[href="#overview"] {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+            font-weight: bold;
+        }
+
+        /* Alternative approach using individual target selectors */
+        #overview:target ~ * .quick-nav a[href="#overview"],
+        #feedback-page:target ~ * .quick-nav a[href="#feedback-page"],
+        #team-page:target ~ * .quick-nav a[href="#team-page"],
+        #content-page:target ~ * .quick-nav a[href="#content-page"],
+        #challenges:target ~ * .quick-nav a[href="#challenges"],
+        #accessibility:target ~ * .quick-nav a[href="#accessibility"] {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+        }
+
+        /* CSS Animation for smooth scroll indication */
+        .quick-nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            transition: left 0.4s ease;
+            z-index: -1;
+            border-radius: 25px;
+        }
+
+        .quick-nav a:hover::before {
+            left: 0;
+        }
+
+        /* Smooth scrolling for the entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section highlighting when targeted */
+        .section:target {
+            background: linear-gradient(135deg, #f1f8e9, #ffffff);
+            border-left-color: #4CAF50;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.2);
+            animation: highlightSection 1s ease-in-out;
+        }
+
+        @keyframes highlightSection {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .page-links {
+                flex-direction: column;
+            }
+
+            .quick-nav {
+                padding: 1rem;
+                position: static;
+                margin-bottom: 1rem;
+            }
+            
+            .quick-nav ul {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .quick-nav a {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+        }
+
+        /* Bounce animation for visual feedback */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="quick-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#overview">📋 Overview</a></li>
+                <li><a href="#feedback-page">📝 Feedback Page</a></li>
+                <li><a href="#team-page">👥 Team Page</a></li>
+                <li><a href="#content-page">📄 Content Page</a></li>
+                <li><a href="#challenges">⚡ Challenges</a></li>
+                <li><a href="#accessibility">♿ Accessibility</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="containername">
+            <h1>🎓 Student 3 - Page Editor</h1>
+            <p class="subtitle">Technical Documentation & Implementation Report</p>
+            <div class="student-info">
+                <div class="info-item">
+                    <div class="info-label">Student Name</div>
+                    <div class="info-value">Sandinu Nethmika</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Role</div>
+                    <div class="info-value">Student 3</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Project</div>
+                    <div class="info-value">HealthWell</div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <section id="overview" class="section">
+                <h2><span>📋</span> Project Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Pages Implemented</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Lines of CSS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Form Elements</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">WCAG Compliant</div>
+                    </div>
+                </div>
+
+                <h3>My Role & Responsibilities</h3>
+                <p>As Student 3 in the HealthWell project team, I was responsible for implementing comprehensive user interaction and content presentation features supporting UN SDG 3: Good Health and Well-being.</p>
+
+                <h3>Completed Tasks</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>📝 Feedback Page</h4>
+                        <p>Comprehensive form with validation, multiple input types, and user experience optimization</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>👥 Team Page</h4>
+                        <p>Interactive team showcase with hover effects, animations, and responsive design</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📄 Content Page</h4>
+                        <p>Detailed biohacking guide with internal navigation and rich content</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📋 Page Editor</h4>
+                        <p>Technical documentation and implementation analysis</p>
+                    </div>
+                </div>
+
+                <h3>Page Links</h3>
+                <div class="page-links">
+                    <a href="feedback.html" class="page-link">🔗 Feedback Page</a>
+                    <a href="team.html" class="page-link">🔗 Team Page</a>
+                    <a href="content_ST3.html" class="page-link">🔗 Content Page</a>
+                    <a href="validation_ST3.html" class="page-link">🔗 Validation Results</a>
+                </div>
+            </section>
+
+            <section id="feedback-page" class="section">
+                <h2><span>📝</span> Feedback Page Implementation</h2>
+                
+                <h3>Key Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Form Structure</h4>
+                        <p>Semantic HTML with fieldset grouping, proper labels, and novalidate for custom validation</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Input Variety</h4>
+                        <p>Text, email, radio buttons, checkboxes, textarea, and select elements with validation</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Rating System</h4>
+                        <p>Interactive 1-10 rating grid with visual feedback and clear labeling</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Responsive Design</h4>
+                        <p>CSS Grid and Flexbox for optimal presentation across all devices</p>
+                    </div>
+                </div>
+
+                <div class="code-snippet">
+/* Form styling with #4CAF50 theme */
+.form-group input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    transition: all 0.3s ease;
+}
+                </div>
+            </section>
+
+            <section id="team-page" class="section">
+                <h2><span>👥</span> Team Page Implementation</h2>
+                
+                <h3>Design Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Grid Layout</h4>
+                        <p>Responsive CSS Grid with auto-fit and minmax for optimal card arrangement</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Hover Effects</h4>
+                        <p>CSS transforms with translateY and scale effects for engaging interactions</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>JavaScript Enhancements</h4>
+                        <p>Dynamic backgrounds and counter animations with Intersection Observer</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Image Styling</h4>
+                        <p>Circular profiles with border effects and smooth transitions</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content-page" class="section">
+                <h2><span>📄</span> Content Page Implementation</h2>
+                
+                <h3>Navigation & Structure</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Internal Navigation</h4>
+                        <p>Smooth scrolling anchor links with proper heading hierarchy</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Sticky Navigation</h4>
+                        <p>Fixed navigation with backdrop-filter for glass-morphism effect</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>CSS Animations</h4>
+                        <p>Keyframe animations for rotating backgrounds and fade-in effects</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Modern CSS</h4>
+                        <p>Grid, Flexbox, and gradient implementations with #4CAF50 theme</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="challenges" class="section challenge-section">
+                <h2><span>⚡</span> Challenges & Solutions</h2>
+                
+                <h3>Complex Form Validation</h3>
+                <p><strong>Challenge:</strong> Creating comprehensive validation while maintaining UX and accessibility.</p>
+                <p><strong>Solution:</strong> Hybrid HTML5 + CSS + JavaScript approach with progressive enhancement.</p>
+
+                <h3>Consistent Color Scheme</h3>
+                <p><strong>Challenge:</strong> Maintaining #4CAF50 theme across all elements with good contrast.</p>
+                <p><strong>Solution:</strong> CSS custom properties and global stylesheet for consistency.</p>
+
+                <h3>Performance Optimization</h3>
+                <p><strong>Challenge:</strong> Smooth animations while maintaining fast load times.</p>
+                <p><strong>Solution:</strong> Hardware acceleration, Intersection Observer, and optimized images.</p>
+            </section>
+
+            <section id="accessibility" class="section accessibility-section">
+                <h2><span>♿</span> Accessibility Implementation</h2>
+                
+                <h3>WCAG 2.1 Compliance</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Semantic HTML</h4>
+                        <p>Proper HTML5 elements for screen reader compatibility</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Form Accessibility</h4>
+                        <p>Proper labeling, fieldset grouping, and clear error messaging</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Keyboard Navigation</h4>
+                        <p>Full keyboard access with visible focus indicators</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Color Contrast</h4>
+                        <p>WCAG AA compliant ratios with #4CAF50 primary color</p>
+                    </div>
+                </div>
+
+                <h3>Testing Results</h3>
+                <p>All pages tested with WAVE, axe DevTools, keyboard navigation, and screen readers with zero accessibility errors.</p>
+                <h3>Validation Results</h3>
+                <p>All pages pass W3C HTML5 and CSS3 validation with cross-browser compatibility across Chrome, Firefox, Safari, and Edge.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+               
+                <div class="footer-section">
+                    <p>&copy; 2025 HealthWell. All rights reserved</p>
+                <p>
+                        <a href="feedback.html">Feedback Page</a> |
+                        <a href="team.html">Team Page</a> |
+                        <a href="content_ST3.html">Content Page</a> |
+                        <a href="validation_ST3.html">Validation Results</a>
+                </p>
+                </div>
+            </div>
+           
+        </div>

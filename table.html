@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Wealth Global Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1e7225, #1e7225);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 120px; /* Space for fixed navbar */
+        }
+
+        /* Enhanced Navigation Bar - Fixed positioning */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0; /* Added to ensure it starts from the very left */
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes activeGlow {
+            0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+            100% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-5px); }
+            60% { transform: translateX(-50%) translateY(-2px); }
+        }
+
+        /* Table Container Styles */
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #4ba279);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '💊';
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .header::after {
+            content: '💰';
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            font-size: 2.5rem;
+            animation: bounce-icon 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce-icon {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .table-wrapper {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .health-wealth-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .health-wealth-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .health-wealth-table th:last-child {
+            border-right: none;
+        }
+
+        .thumbnail {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .thumbnail:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .thumbnail:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .health-wealth-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .health-wealth-table tbody tr:nth-child(odd) {
+            background: #f8f9ff;
+        }
+
+        .health-wealth-table tbody tr:nth-child(even) {
+            background: #f0f4ff;
+        }
+
+        .health-wealth-table tbody tr:hover {
+            background: linear-gradient(90deg, #e8f0ff, #d4e7ff);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .health-wealth-table td {
+            padding: 15px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .country-cell {
+            text-align: left;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .flag {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .status-icon {
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+
+        .excellent { color: #10b981; }
+        .good { color: #06b6d4; }
+        .moderate { color: #f59e0b; }
+        .poor { color: #ef4444; }
+
+        .data-link {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .data-link:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        .merged-cell {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+            font-weight: 600;
+            color: #1e40af;
+            vertical-align: middle;
+        }
+
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #93c5fd;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            header {
+                left: 0;
+                right: 0;
+            }
+            
+            header .container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            
+            .navbar ul {
+                gap: 10px;
+                padding: 5px 8px;
+            }
+            
+            .navbar a {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .table-container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .table-wrapper {
+                padding: 15px;
+            }
+            
+            .health-wealth-table th,
+            .health-wealth-table td {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .thumbnail {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+        }
+
+        .shine {
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .wealth-high { background: linear-gradient(45deg, #fef3c7, #fbbf24); color: #92400e; }
+        .wealth-medium { background: linear-gradient(45deg, #e0e7ff, #8b5cf6); color: #5b21b6; }
+        .health-high { background: linear-gradient(45deg, #dcfce7, #22c55e); color: #166534; }
+        .health-medium { background: linear-gradient(45deg, #fef3c7, #f59e0b); color: #92400e; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header>
+        <div class="container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html" class="active">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+                <div class="nav-indicator"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Table Content -->
+    <div class="table-container">
+        <header class="header">
+            <div class="subtitle">Global Health & Economic Prosperity Dashboard 2024</div>
+        </header>
+
+        <div class="table-wrapper">
+            <table class="health-wealth-table" role="table" aria-label="Health and Wealth Data by Country">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="Countries and regions">
+                                🌍
+                                <div class="tooltip">Countries & Regions</div>
+                            </div>
+                            Country/Region
+                        </th>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="Life expectancy data">
+                                🧬
+                                <div class="tooltip">Life Expectancy (Years)</div>
+                            </div>
+                            Life Expectancy<br><small>(Years)</small>
+                        </th>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="GDP per capita">
+                                💰
+                                <div class="tooltip">GDP Per Capita (USD)</div>
+                            </div>
+                            GDP Per Capita<br><small>(USD)</small>
+                        </th>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="Healthcare spending">
+                                🏥
+                                <div class="tooltip">Healthcare Spending (% GDP)</div>
+                            </div>
+                            Healthcare Spending<br><small>(% of GDP)</small>
+                        </th>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="Human development index">
+                                📈
+                                <div class="tooltip">Human Development Index</div>
+                            </div>
+                            HDI Score<br><small>(0-1 scale)</small>
+                        </th>
+                        <th scope="col">
+                            <div class="thumbnail" aria-label="Overall wellness rating">
+                                ⭐
+                                <div class="tooltip">Overall Wellness Rating</div>
+                            </div>
+                            Wellness Rating
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇨🇭</span>Switzerland
+                        </td>
+                        <td class="health-high">
+                            <a href="https://www.who.int/countries/che/" class="data-link" target="_blank" aria-label="Switzerland health data">83.8</a>
+                        </td>
+                        <td class="wealth-high">
+                            <a href="https://data.worldbank.org/country/switzerland" class="data-link" target="_blank" aria-label="Switzerland economic data">$94,696</a>
+                        </td>
+                        <td>11.3%</td>
+                        <td>0.962</td>
+                        <td>
+                            <span class="status-icon excellent">🌟</span>Excellent
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇸🇬</span>Singapore
+                        </td>
+                        <td class="health-high">
+                            <a href="https://www.who.int/countries/sgp/" class="data-link" target="_blank" aria-label="Singapore health data">83.7</a>
+                        </td>
+                        <td class="wealth-high">
+                            <a href="https://data.worldbank.org/country/singapore" class="data-link" target="_blank" aria-label="Singapore economic data">$82,794</a>
+                        </td>
+                        <td>6.1%</td>
+                        <td>0.949</td>
+                        <td>
+                            <span class="status-icon excellent">🌟</span>Excellent
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇺🇸</span>United States
+                        </td>
+                        <td class="health-medium">
+                            <a href="https://www.cdc.gov/nchs/fastats/life-expectancy.htm" class="data-link" target="_blank" aria-label="USA health data">78.9</a>
+                        </td>
+                        <td class="wealth-high">
+                            <a href="https://data.worldbank.org/country/united-states" class="data-link" target="_blank" aria-label="USA economic data">$76,398</a>
+                        </td>
+                        <td>17.8%</td>
+                        <td>0.921</td>
+                        <td>
+                            <span class="status-icon good">✅</span>Good
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇯🇵</span>Japan
+                        </td>
+                        <td class="health-high">
+                            <a href="https://www.who.int/countries/jpn/" class="data-link" target="_blank" aria-label="Japan health data">84.6</a>
+                        </td>
+                        <td class="wealth-medium">
+                            <a href="https://data.worldbank.org/country/japan" class="data-link" target="_blank" aria-label="Japan economic data">$39,340</a>
+                        </td>
+                        <td>11.0%</td>
+                        <td>0.925</td>
+                        <td>
+                            <span class="status-icon excellent">🌟</span>Excellent
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇩🇪</span>Germany
+                        </td>
+                        <td class="health-high">
+                            <a href="https://www.who.int/countries/deu/" class="data-link" target="_blank" aria-label="Germany health data">81.3</a>
+                        </td>
+                        <td class="wealth-high">
+                            <a href="https://data.worldbank.org/country/germany" class="data-link" target="_blank" aria-label="Germany economic data">$53,259</a>
+                        </td>
+                        <td>12.8%</td>
+                        <td>0.942</td>
+                        <td>
+                            <span class="status-icon excellent">🌟</span>Excellent
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇮🇳</span>India
+                        </td>
+                        <td>
+                            <a href="https://www.who.int/countries/ind/" class="data-link" target="_blank" aria-label="India health data">69.7</a>
+                        </td>
+                        <td>
+                            <a href="https://data.worldbank.org/country/india" class="data-link" target="_blank" aria-label="India economic data">$2,389</a>
+                        </td>
+                        <td>3.0%</td>
+                        <td>0.633</td>
+                        <td>
+                            <span class="status-icon moderate">⚠️</span>Developing
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇧🇷</span>Brazil
+                        </td>
+                        <td>
+                            <a href="https://www.who.int/countries/bra/" class="data-link" target="_blank" aria-label="Brazil health data">75.9</a>
+                        </td>
+                        <td>
+                            <a href="https://data.worldbank.org/country/brazil" class="data-link" target="_blank" aria-label="Brazil economic data">$8,917</a>
+                        </td>
+                        <td>10.0%</td>
+                        <td>0.760</td>
+                        <td>
+                            <span class="status-icon moderate">⚠️</span>Moderate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🇳🇬</span>Nigeria
+                        </td>
+                        <td>
+                            <a href="https://www.who.int/countries/nga/" class="data-link" target="_blank" aria-label="Nigeria health data">54.3</a>
+                        </td>
+                        <td>
+                            <a href="https://data.worldbank.org/country/nigeria" class="data-link" target="_blank" aria-label="Nigeria economic data">$2,085</a>
+                        </td>
+                        <td>3.8%</td>
+                        <td>0.535</td>
+                        <td>
+                            <span class="status-icon poor">❌</span>Challenging
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="merged-cell shine" colspan="2" style="text-align: center;">
+                            <strong>🎯 Global Health Target</strong><br>
+                            Life expectancy: 75+ years
+                        </td>
+                        <td class="merged-cell" rowspan="2" style="vertical-align: middle;">
+                            <strong>💰 Wealth Distribution</strong><br>
+                            <small>Top 10%: $132,000+<br>Global Avg: $12,236</small>
+                        </td>
+                        <td class="merged-cell" colspan="3" style="text-align: center;">
+                            <strong>🏥 Healthcare Access: Universal Coverage Goal</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="country-cell">
+                            <span class="flag">🌍</span><strong>Global Average</strong>
+                        </td>
+                        <td>
+                            <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates" class="data-link" target="_blank" aria-label="Global health data"><strong>73.4</strong></a>
+                        </td>
+                        <td><strong>$12,236</strong></td>
+                        <td><strong>9.8%</strong></td>
+                        <td>
+                            <span class="status-icon moderate">⚠️</span><strong>Inequality Gap</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="footer">
+            <p>Data Sources: 
+                <a href="https://www.who.int/" target="_blank" rel="noopener" aria-label="World Health Organization">WHO</a> |
+                <a href="https://data.worldbank.org/" target="_blank" rel="noopener" aria-label="World Bank">World Bank</a> |
+                <a href="https://hdr.undp.org/" target="_blank" rel="noopener" aria-label="UN Human Development Reports">UNDP HDR</a> |
+                <a href="#" target="_blank" rel="noopener" aria-label="Student editor link">My 2-Page Editor</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                © 2024 HealthWealth Global Dashboard | Last Updated: June 2025
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to table rows
+            const tableRows = document.querySelectorAll('.health-wealth-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+
+            // Add dynamic color changes based on data values
+            const gdpCells = document.querySelectorAll('.wealth-high, .wealth-medium');
+            gdpCells.forEach(cell => {
+                cell.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 0 15px rgba(251, 191, 36, 0.5)';
+                });
+                cell.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Enhanced keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    setTimeout(() => {
+                        const focused = document.activeElement;
+                        if (focused.classList.contains('data-link')) {
+                            focused.style.outline = '3px solid #3b82f6';
+                        }
+                    }, 10);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

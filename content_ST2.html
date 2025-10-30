@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Wellbeing - Your Journey to Wellness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 100%);
+            padding-top: 80px; /* Add padding to body to account for fixed header */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Navigation Bar - Fixed positioning */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0; /* Added to ensure it starts from the very left */
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes activeGlow {
+            0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+            100% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-5px); }
+            60% { transform: translateX(-50%) translateY(-2px); }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                left: 0;
+                right: 0;
+            }
+            
+            header .container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            
+            .navbar ul {
+                gap: 10px;
+                padding: 5px 8px;
+            }
+            
+            .navbar a {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+        }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #2d5016;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f7fafc;
+        }
+
+        /* Quick Access Navigation */
+        .quick-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(56, 161, 105, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 80px; /* Adjust top position for fixed header */
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quick-nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quick-nav-title {
+            font-weight: 600;
+            color: #2d5016;
+            font-size: 1.1rem;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-nav-links a {
+            color: #38a169;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .quick-nav-links a:hover {
+            background: #38a169;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .quick-nav-links a.active {
+            background: #38a169;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #38a169;
+        }
+
+        .content-section h2 {
+            color: #2d5016;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3 {
+            color: #38a169;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nutrition-icon { background: #38a169; }
+        .fitness-icon { background: #2b6cb0; }
+        .mental-icon { background: #805ad5; }
+        .sleep-icon { background: #2d3748; }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .widget {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid #38a169;
+        }
+
+        .widget h3 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tip-of-day {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #38a169;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38a169, #68d391);
+            transition: width 1s ease;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-top-color: #38a169;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #38a169, #68d391);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .feature-card h3 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2d5016 0%, #38a169 100%);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #68d391;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #68d391;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            /* Removed the old header-content rules */
+            
+            .quick-nav-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .quick-nav-links {
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .quick-nav-links a {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section, .widget, .feature-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html" class="active">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+                <div class="nav-indicator"></div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Your Journey to Better Health Starts Here</h1>
+            <p>Discover personalized wellness solutions, expert guidance, and a supportive community to help you achieve your health and wellbeing goals.</p>
+            <a href="#get-started" class="cta-button pulse">Start Your Wellness Journey</a>
+        </div>
+    </section>
+
+    <nav class="quick-nav">
+        <div class="container">
+            <div class="quick-nav-content">
+                <div class="quick-nav-title">Quick Navigation:</div>
+                <div class="quick-nav-links">
+                    <a href="#nutrition">🍎 Nutrition</a>
+                    <a href="#fitness">💪 Fitness</a>
+                    <a href="#mental-health">🧠 Mental Health</a>
+                    <a href="#sleep">😴 Sleep</a>
+                    <a href="#features">🎯 Features</a>
+                    <a href="#progress">📊 Progress</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <div class="content-section">
+                    <h2><span class="icon nutrition-icon">🥗</span>Holistic Health & Wellbeing</h2>
+                    
+                    <p>Welcome to your comprehensive guide for achieving optimal health and wellbeing. Our approach focuses on the interconnected nature of physical health, mental wellness, and lifestyle choices that create lasting positive change in your life.</p>
+
+                    <h3><span class="icon nutrition-icon">🍎</span>Nutrition & Healthy Eating</h3>
+                    <div id="nutrition">
+                        <p>Proper nutrition forms the foundation of good health. Our evidence-based nutritional guidance helps you make informed food choices, understand macronutrients and micronutrients, and develop sustainable eating habits that fuel your body and mind.</p>
+                        
+                        <p><strong>Key Focus Areas:</strong></p>
+                        <p>• Balanced meal planning and portion control<br>
+                        • Understanding nutritional labels and ingredient quality<br>
+                        • Hydration strategies for optimal body function<br>
+                        • Managing dietary restrictions and food sensitivities</p>
+                    </div>
+
+                    <h3><span class="icon fitness-icon">💪</span>Physical Fitness & Movement</h3>
+                    <div id="fitness">
+                        <p>Regular physical activity is essential for maintaining strength, flexibility, cardiovascular health, and mental wellbeing. We provide guidance for all fitness levels, from beginners to advanced athletes.</p>
+                        
+                        <p><strong>Exercise Categories:</strong></p>
+                        <p>• Cardiovascular training for heart health<br>
+                        • Strength training for muscle and bone health<br>
+                        • Flexibility and mobility work<br>
+                        • Functional movement for daily activities</p>
+                    </div>
+
+                    <h3><span class="icon mental-icon">🧠</span>Mental Health & Emotional Wellbeing</h3>
+                    <div id="mental-health">
+                        <p>Mental health is just as important as physical health. We offer resources and strategies for managing stress, building resilience, and maintaining emotional balance in today's fast-paced world.</p>
+                        
+                        <p><strong>Mental Wellness Tools:</strong></p>
+                        <p>• Mindfulness and meditation practices<br>
+                        • Stress management techniques<br>
+                        • Building healthy relationships and social connections<br>
+                        • Developing emotional intelligence and coping skills</p>
+                    </div>
+
+                    <h3><span class="icon sleep-icon">😴</span>Sleep & Recovery</h3>
+                    <div id="sleep">
+                        <p>Quality sleep is when your body repairs, recovers, and rejuvenates. Learn how to optimize your sleep environment, establish healthy bedtime routines, and understand the science of restorative sleep.</p>
+                    </div>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="widget">
+                        <h3>💡 Daily Wellness Tip</h3>
+                        <div class="tip-of-day">
+                            <strong>Today's Tip:</strong> Start your morning with 10 minutes of deep breathing exercises. This simple practice can reduce cortisol levels, improve focus, and set a positive tone for your entire day.
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3 id="progress">📊 Your Progress</h3>
+                        <p><strong>Weekly Goals:</strong></p>
+                        <div>
+                            <p>Exercise (5/7 days)</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 71%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Water Intake (6/8 glasses)</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Sleep (7+ hours)</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3>🎯 Quick Actions</h3>
+                        <a href="#meal-planner" style="display: block; background: #38a169; color: white; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; text-align: center; text-decoration: none;">Plan Today's Meals</a>
+                        <a href="#workout" style="display: block; background: #2b6cb0; color: white; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; text-align: center; text-decoration: none;">Start 15-Min Workout</a>
+                        <a href="#meditation" style="display: block; background: #805ad5; color: white; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; text-align: center; text-decoration: none;">5-Min Meditation</a>
+                    </div>
+
+                </aside>
+            </div>
+
+            <section class="features-grid" id="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🏃</div>
+                    <h3>Personalized Fitness Plans</h3>
+                    <p>Custom workout routines tailored to your fitness level, goals, and available time. From beginner-friendly exercises to advanced training programs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🍽️</div>
+                    <h3>Meal Planning & Recipes</h3>
+                    <p>Nutritious meal plans, healthy recipes, and grocery lists designed to support your dietary preferences and health objectives.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧘</div>
+                    <h3>Mindfulness & Meditation</h3>
+                    <p>Guided meditation sessions, breathing exercises, and mindfulness practices to reduce stress and improve mental clarity.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your health metrics, track your goals, and celebrate your achievements with our comprehensive tracking tools.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Community Support</div>
+                    <p>Connect with like-minded individuals, share your journey, and get motivated by our supportive wellness community.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Expert Guidance</h3>
+                    <p>Access to certified nutritionists, fitness trainers, and wellness coaches who provide professional advice and support.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Health Resources</h3>
+                    <a href="#">Nutrition Guidelines</a>
+                    <a href="#">Fitness Programs</a>
+                    <a href="#">Mental Health Support</a>
+                    <a href="#">Sleep Optimization</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <a href="#">Discussion Forums</a>
+                    <a href="#">Success Stories</a>
+                    <a href="#">Challenges & Events</a>
+                    <a href="#">Expert Q&A</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2025 WellnessHub. Your health is our priority. Empowering you to live your best life.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple progress bar animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            setTimeout(() => {
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+        });
+
+        // Enhanced smooth scrolling with offset for sticky nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                
+                if (target) {
+                    const quickNavHeight = document.querySelector('.quick-nav').offsetHeight;
+                    const headerHeight = document.querySelector('header').offsetHeight; // Get header height
+                    const targetPosition = target.offsetTop - quickNavHeight - headerHeight - 20; // Adjust offset
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active state
+                    document.querySelectorAll('.quick-nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active nav item on scroll
+        window.addEventListener('scroll', function() {
+            const quickNavHeight = document.querySelector('.quick-nav').offsetHeight;
+            const headerHeight = document.querySelector('header').offsetHeight; // Get header height
+            const sections = ['nutrition', 'fitness', 'mental-health', 'sleep', 'features', 'progress'];
+            let currentSection = '';
+            
+            sections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    // Adjust condition to account for fixed header and quick nav
+                    if (rect.top <= quickNavHeight + headerHeight + 50 && rect.bottom >= quickNavHeight + headerHeight) {
+                        currentSection = sectionId;
+                    }
+                }
+            });
+            
+            document.querySelectorAll('.quick-nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

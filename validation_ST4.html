@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Report - Student 4</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #6ce07b7e 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Fixed Header Styles - Logo Left, Nav Right within 1200px container */
+        header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 80px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            object-fit: cover;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .logo-section h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+
+        /* Navigation Styles - Aligned to right */
+        .navbar {
+            display: flex;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+            align-items: center;
+        }
+
+        .navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .navbar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Fixed hover effect with sliding background */
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .navbar a:hover::before {
+            left: 0;
+        }
+
+        /* Fixed hover effect - reduced bounce distance */
+        .navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active state with unique animation */
+        .navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            animation: activeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .navbar a.active::before {
+            display: none;
+        }
+
+        /* Ripple effect on click */
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .navbar a:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Fixed floating navigation indicator */
+        .nav-indicator {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover .nav-indicator {
+            opacity: 1;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes activeGlow {
+            0% {
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-3px);
+            }
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            color: #2c3e50;
+            margin: 40px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Validation Container */
+        .validation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .validation-section {
+            background: linear-gradient(135deg, #51c4b6, #88e8e0);
+            border: 2px solid #52b788;
+            border-radius: 15px;
+            margin: 25px 0;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .validation-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #74c69d, #52b788, #40916c);
+        }
+
+        .validation-section h2 {
+            color: #d8f3dc;
+            border-bottom: 3px solid #74c69d;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(135deg, #17a56a, #2d5a3d);
+            padding: 15px;
+            border-radius: 10px;
+            margin: -15px -15px 25px -15px;
+            border: 1px solid #52b788;
+        }
+
+        .validation-section h3 {
+            color: #b7e4c7;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #186d4a, #2d5a3d);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #74c69d;
+            border: 1px solid #52b788;
+        }
+
+        .validation-details-box {
+            background: linear-gradient(135deg, #2f9389, #2d5a3d);
+            border: 2px solid #52b788;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #74c69d;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .screenshot-box {
+            background: linear-gradient(135deg, #1b4332, #2d5a3d);
+            border: 2px solid #74c69d;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #52b788;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
+        }
+
+        .screenshot-caption {
+            color: #b7e4c7;
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .validation-status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-pass {
+            background: linear-gradient(135deg, #40916c, #52b788);
+            color: #d8f3dc;
+            border: 2px solid #74c69d;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-warning {
+            background: linear-gradient(135deg, #6c5b0f, #8b6914);
+            color: #fef3cd;
+            border: 2px solid #f39c12;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .reflection-box {
+            background: linear-gradient(135deg, #102f06, #2d5a3d);
+            border: 2px solid #74c69d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reflection-box h4 {
+            color: #d8f3dc;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(135deg, #2d5a3d, #40735c);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #52b788;
+        }
+
+        .key-insights-box {
+            background: linear-gradient(135deg, #021111, #2d5a3d);
+            border: 2px solid #74c69d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .key-insights-box h4 {
+            color: #d8f3dc;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(135deg, #2d5a3d, #40735c);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #52b788;
+        }
+
+        .key-insights-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .key-insights-box li {
+            margin: 15px 0;
+            color: #b7e4c7;
+            line-height: 1.6;
+        }
+
+        .key-insights-box strong {
+            color: #d8f3dc;
+        }
+
+        .process-summary-box {
+            background: linear-gradient(135deg, #1b4332, #2d5a3d);
+            border: 2px solid #74c69d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .process-summary-box h3 {
+            background: linear-gradient(135deg, #2d5a3d, #40735c);
+            color: #d8f3dc;
+            margin: -10px -10px 20px -10px;
+            border-radius: 8px;
+            border: 1px solid #52b788;
+        }
+
+        .process-summary-box ul {
+            background: linear-gradient(135deg, #2d5a3d, #40735c);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #52b788;
+            margin: 15px 0;
+        }
+
+        .process-summary-box li {
+            margin: 10px 0;
+            color: #b7e4c7;
+            line-height: 1.5;
+        }
+
+        .process-summary-box strong {
+            color: #d8f3dc;
+        }
+
+        p {
+            color: #b7e4c7;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        strong {
+            color: #d8f3dc;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1b4332, #2d5a3d);
+            color: #d8f3dc;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 10px;
+            border: 2px solid #52b788;
+        }
+
+        footer a {
+            color: #74c69d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            color: #b7e4c7;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .navbar ul {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 8px 10px;
+            }
+
+            .navbar a {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            body {
+                padding-top: 140px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .logo-section h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">HTML/CSS Validation Report - Student 4</h1>
+
+        <div class="validation-container">
+            <!-- Sitemap Validation -->
+            <section id="sitemap-validation" class="validation-section">
+                <h2>Sitemap Page Validation (sitemap.html)</h2>
+
+                <h3>HTML Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C Markup Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Document validates
+                            successfully</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 2</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/sitemap-html.png" alt="HTML validation results for sitemap.html"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 1: W3C HTML validation results showing successful validation
+                        with 2 warnings</p>
+                </div>
+
+                <h3>CSS Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C CSS Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Valid CSS</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 0</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/sitemap-css.png" alt="CSS validation results for sitemap page styles"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 2: W3C CSS validation results showing no errors found</p>
+                </div>
+
+                <div class="reflection-box">
+                    <h4>Reflection on Sitemap Validation:</h4>
+                    <p>The sitemap page validates successfully with no errors. The two HTML warnings are related to SVG
+                        accessibility attributes, which are actually beneficial for screen readers. The SVG elements
+                        include proper alt text and keyboard navigation support as required. The interactive hover
+                        effects and clickable links all validate correctly, demonstrating proper implementation of
+                        scalable vector graphics within HTML5 standards.</p>
+                </div>
+            </section>
+
+            <!-- User Profile Validation -->
+            <section id="profile-validation" class="validation-section">
+                <h2>User Profile Page Validation (profile.html)</h2>
+
+                <h3>HTML Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C Markup Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Document validates
+                            successfully</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 1</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/profile-html.jpg" alt="HTML validation results for profile.html"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 3: W3C HTML validation results showing successful validation
+                        with 1 warning</p>
+                </div>
+
+                <h3>CSS Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C CSS Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Valid CSS</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 0</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/profile-css.jpg" alt="CSS validation results for profile page styles"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 4: W3C CSS validation results showing no errors found</p>
+                </div>
+
+                <div class="reflection-box">
+                    <h4>Reflection on User Profile Validation:</h4>
+                    <p>The user profile page validates successfully with no errors. The single HTML warning relates to a
+                        form input type that may not be supported by all browsers, but this is acceptable as it degrades
+                        gracefully. All form elements, including the contact form, calendar table, and progress bars,
+                        validate correctly. The circular avatar image and hover effects on interactive elements all
+                        comply with HTML5 and CSS3 standards.</p>
+                </div>
+            </section>
+
+            <!-- Content Page Validation -->
+            <section id="content-validation" class="validation-section">
+                <h2>Content Page Validation (content_ST4.html)</h2>
+
+                <h3>HTML Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C Markup Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Document validates
+                            successfully</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 0</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/content-html.png" alt="HTML validation results for content_ST4.html"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 5: W3C HTML validation results showing perfect validation</p>
+                </div>
+
+                <h3>CSS Validation Results</h3>
+                <div class="validation-details-box">
+                    <p><strong>Validation Tool:</strong> W3C CSS Validator</p>
+                    <p><strong>Status:</strong> <span class="validation-status status-pass">PASS - Valid CSS</span></p>
+                    <p><strong>Errors:</strong> 0 | <strong>Warnings:</strong> 0</p>
+                </div>
+
+                <div class="screenshot-box">
+                    <img src="./images/content-css.png" alt="CSS validation results for content page styles"
+                        class="screenshot-img">
+                    <p class="screenshot-caption">Figure 6: W3C CSS validation results showing no errors found</p>
+                </div>
+
+                <div class="reflection-box">
+                    <h4>Reflection on Content Page Validation:</h4>
+                    <p>The content page validates perfectly with no errors or warnings. This demonstrates proper
+                        implementation of semantic HTML5 elements, correct heading hierarchy (h1-h6), and valid internal
+                        linking structure. The "Go to Top" button with fixed positioning, image styling with alt text,
+                        and internal navigation all validate successfully. The page structure follows accessibility
+                        guidelines and web standards completely.</p>
+                </div>
+            </section>
+
+            <!-- Overall Reflection -->
+            <section id="overall-reflection" class="validation-section">
+                <h2>Overall Validation Reflection</h2>
+
+                <div class="key-insights-box">
+                    <h4>Key Validation Insights:</h4>
+                    <ul>
+                        <li><strong>Standards Compliance:</strong> All three pages successfully validate against W3C
+                            HTML5 and CSS3 standards with zero errors, demonstrating proper implementation of web
+                            technologies.</li>
+                        <li><strong>Accessibility Considerations:</strong> The few warnings that appear are related to
+                            accessibility enhancements (like SVG alt text) that actually improve the user experience for
+                            screen readers and assistive technologies.</li>
+                        <li><strong>Cross-Browser Compatibility:</strong> Validation ensures that the pages will render
+                            consistently across different browsers and devices, meeting professional web development
+                            standards.</li>
+                        <li><strong>Code Quality:</strong> The validation process confirmed that the HTML structure is
+                            semantic, the CSS is efficient, and there are no syntax errors that could cause display
+                            issues.</li>
+                        <li><strong>Best Practices:</strong> The validation results demonstrate adherence to web
+                            development best practices, including proper use of form elements, SVG implementation, and
+                            responsive design principles.</li>
+                    </ul>
+                </div>
+
+                <h3>Validation Process Summary</h3>
+                <div class="process-summary-box">
+                    <h3>Validation Tools Used</h3>
+                    <ul>
+                        <li><strong>HTML Validation:</strong> W3C Markup Validator (validator.w3.org)</li>
+                        <li><strong>CSS Validation:</strong> W3C CSS Validator (jigsaw.w3.org/css-validator/)</li>
+                    </ul>
+                    <p>The validation process was completed by uploading each HTML file directly to the validators and
+                        checking both the HTML structure and associated CSS files. All errors were resolved before final
+                        submission, and the acceptable warnings were documented and explained.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>Healthwealth | <a href="pageEditor_ST4.html">Page Editor - Student 4</a></p>
+    </footer>
+</body>
+
+</html>

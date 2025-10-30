@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biohacking & Modern Wellness: The Smart Guide to Elevated Health</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #ffffff 100%,#a4e2877e 0%);
+            min-height: 100vh;
+            color: #333;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Top Navigation Bar - Fixed */
+        .top-header {
+            background: linear-gradient(135deg, #117a08 0%, #535a11 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            min-height: 80px;
+        }
+
+        .top-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: transparent; /* Remove white background */
+            backdrop-filter: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .top-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ecf0f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            margin-right: 20px;
+        }
+
+        .top-navbar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .top-navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 50px;
+        }
+
+        .top-navbar li {
+            position: relative;
+            overflow: visible;
+        }
+
+        .top-navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .top-navbar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .top-navbar a:hover::before {
+            left: 0;
+        }
+
+        .top-navbar a:hover {
+            color: white;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .top-navbar a.active {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+           
+        }
+
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #93fb9f 0%, #27ac32 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(51, 99, 53, 0.3);
+        }
+
+        .nav-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.5);
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .section:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+            border-left: 4px solid #4facfe;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.1);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .tip-card h4 {
+            color: #4facfe;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        /* FIXED: Go to top button */
+        .go-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            animation: pulse 2s infinite;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .go-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .go-to-top:hover {
+            transform: scale(1.1) translateY(0);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+            text-decoration: none;
+        }
+
+
+        .quote {
+            background: linear-gradient(135deg, #4edb57 0%, #c7b0a8 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #000000;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #3fae60 0%, #8dc9cc 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(65, 165, 85, 0.05);
+        }
+
+        .action-plan {
+            background: linear-gradient(135deg, rgba(148, 231, 170, 0.1), rgba(245, 87, 108, 0.1));
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid rgba(83, 195, 81, 0.3);
+        }
+
+        .footer-content {
+            text-align: center;
+            padding: 2rem;
+            background: #2c3e50;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 20px 20px;
+            }
+
+            .nav {
+                padding: 15px 20px;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar - Add this section -->
+    <header class="top-header">
+        <div class="container">
+            <div class="logo-section">
+                <img src="./images/plus.jpg" alt="Health Plus Logo" class="logo">
+                <h1>HealthWell</h1>
+            </div>
+            <nav class="top-navbar">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="table.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="floating">🌱 Biohacking & Modern Wellness</h1>
+            <p class="subtitle">The Smart Guide to Elevated Health</p>
+        </header>
+    </div>
+
+        <nav class="nav">
+            <div class="nav-grid">
+                <a href="#intro" class="nav-item">🏠 Introduction</a>
+                <a href="#what-is" class="nav-item">🧬 What is Biohacking?</a>
+                <a href="#micro-habits" class="nav-item">⚡ Daily Micro-Habits</a>
+                <a href="#sleep" class="nav-item">🌙 Sleep Superpower</a>
+                <a href="#nutrition" class="nav-item">🥑 Food as Information</a>
+                <a href="#digital" class="nav-item">📱 Digital Wellness</a>
+                <a href="#environment" class="nav-item">🌿 Environmental Hacks</a>
+                <a href="#mindfulness" class="nav-item">🧘‍♀️ Emotional Resets</a>
+                <a href="#tools" class="nav-item">🔧 Tools & Apps</a>
+                <a href="#action-plan" class="nav-item">🎯 Action Plan</a>
+            </div>
+        </nav>
+
+        <main class="content">
+            <section id="intro" class="section">
+                <h2 class="section-title"><span class="emoji">🏠</span>Introduction – A New Age of Wellness</h2>
+                <div class="section-content">
+                    <p>In a world of endless health advice, biohacking offers a modern, science-driven, and customizable approach to health. Instead of one-size-fits-all routines, biohacking empowers individuals — especially students and young professionals — to take charge of their biology through small, high-impact habits.</p>
+                    
+                    <p>This guide isn't about expensive supplements or extreme diets. It's about understanding your body and using real-world strategies to live with more energy, focus, and confidence.</p>
+                    
+                    <div class="quote pulse">
+                        "Don't just survive — optimize."
+                    </div>
+                </div>
+            </section>
+
+            <section id="what-is" class="section">
+                <h2 class="section-title"><span class="emoji">🧬</span>What is Biohacking?</h2>
+                <div class="section-content">
+                    <p>Biohacking is the art and science of optimizing your body and mind through measurable changes in lifestyle, environment, and behavior.</p>
+                    
+                    <div class="highlight-box">
+                        <h3><span class="icon">💡</span>Types of Biohacking:</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>🍽️ Nutritional Biohacking</h4>
+                                <p>Using specific foods and meal timing to boost performance.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🛌 Sleep Biohacking</h4>
+                                <p>Enhancing sleep quality with light control, routine, and temperature.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>📱 Digital Biohacking</h4>
+                                <p>Managing screen time, light exposure, and mental clarity.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4> Environmental Biohacking</h4>
+                                <p>Using nature, light, sound, and temperature to improve well-being.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🧠 Neurohacking</h4>
+                                <p>Improving focus, memory, and mood through meditation and cognitive practices.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quote">
+                        🧪 "Applying a scientific method to your health — test, track, adjust, repeat."
+                    </div>
+                </div>
+            </section>
+
+            <section id="micro-habits" class="section">
+                <h2 class="section-title"><span class="emoji">⚡</span>Daily Micro-Habits That Make a Big Difference</h2>
+                <div class="section-content">
+                    <p>Small actions create massive change over time. Biohackers often start with these "tiny tweaks" that stack into long-term transformation.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>✅ Examples of Powerful Micro-Habits:</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>💧 Hydration Boost</h4>
+                                <p>Drink 500ml of water within 10 minutes of waking.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🏃‍♂️ Movement Breaks</h4>
+                                <p>Do 2 minutes of movement after each hour of sitting.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🔗 Habit Triggers</h4>
+                                <p>Meditate right after brushing your teeth.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>📵 No Scroll Zone</h4>
+                                <p>First 30 minutes without your phone in the morning.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <p><strong>📌 Why they work:</strong> Micro-habits avoid decision fatigue, are easy to repeat daily, and reinforce identity — "I am a healthy person."</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sleep" class="section">
+                <h2 class="section-title"><span class="emoji">🌙</span>Sleep as Your Superpower</h2>
+                <div class="section-content">
+                    <p>Sleep is the ultimate biohack — cheap, natural, and essential.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>🛌 Why It Matters:</h3>
+                        <ul>
+                            <li>Supports memory, immune system, and emotional regulation</li>
+                            <li>Lack of sleep is linked to obesity, depression, and poor academic performance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>☀️ Morning Light</h4>
+                            <p>Get light exposure within 30 minutes of waking to improve circadian rhythm.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🔵 Blue Light Control</h4>
+                            <p>Avoid screens after 9 PM or wear blue-blocking glasses.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🌡️ Cool Environment</h4>
+                            <p>Sleep in a room at 18–20°C for optimal deep sleep.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>☕ Caffeine Cutoff</h4>
+                            <p>No caffeine after 2 PM to avoid sleep disruption.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🕯️ Calming Routines</h4>
+                            <p>Try journaling, lavender oil, or reading fiction before bed.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>📊 Sleep Tracking</h4>
+                            <p>Use apps like Sleep Cycle or Oura to monitor sleep patterns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="nutrition" class="section">
+                <h2 class="section-title"><span class="emoji">🥑</span>Food as Information, Not Just Fuel</h2>
+                <div class="section-content">
+                    <p>Every bite affects your mood, energy, and inflammation levels.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>🥑 Principles of Nutritional Biohacking:</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>🥩 Protein First</h4>
+                                <p>Start meals with protein or fiber to stabilize blood sugar.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🌱 Whole Foods</h4>
+                                <p>Favor leafy greens, fish, berries, eggs, nuts, and seeds.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>❌ Avoid Processed</h4>
+                                <p>Skip seed oils, sugary drinks, and ultra-processed snacks.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>⏰ Intermittent Fasting</h4>
+                                <p>Fast for 12–14 hours overnight to reset your digestive system.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🦠 Gut Health</h4>
+                                <p>Add probiotics: yogurt, garlic, oats, banana, kimchi.</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🐌 Mindful Eating</h4>
+                                <p>Eat slowly — digestion starts in your brain, not your stomach.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="digital" class="section">
+                <h2 class="section-title"><span class="emoji">📱</span>Digital Wellness & Mental Clarity</h2>
+                <div class="section-content">
+                    <p>Your screen is not your enemy — but your brain needs boundaries.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>📱 Signs of digital overload:</h3>
+                        <ul>
+                            <li>Fatigue after scrolling</li>
+                            <li>Reduced memory and focus</li>
+                            <li>Increased anxiety or mood swings</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>🌳 Focus Apps</h4>
+                            <p>Use Forest or Focus Keeper to reduce distractions.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🚫 Dopamine Detox</h4>
+                            <p>No TikTok or Instagram for one full day.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>⚫ Grayscale Mode</h4>
+                            <p>Make your phone less addictive with gray-scale mode.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🌅 No-Screen Mornings</h4>
+                            <p>Try screen-free mornings once or twice a week.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quote">
+                        💬 "Where attention goes, energy flows."
+                    </div>
+                </div>
+            </section>
+
+            <section id="environment" class="section">
+                <h2 class="section-title"><span class="emoji">🌿</span>Environmental Wellness Hacks</h2>
+                <div class="section-content">
+                    <p>Your surroundings affect your biology more than you realize.</p>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>🧊 Cold Exposure</h4>
+                            <p>30-second cold showers build resilience and focus.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🦶 Grounding</h4>
+                            <p>Walk barefoot on grass or sand for 10 minutes daily.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>☀️ Light Therapy</h4>
+                            <p>Use sunlight in the morning and dim lighting at night.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🌱 Indoor Plants</h4>
+                            <p>Add plants or essential oils to reduce stress.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🔥 Heat Exposure</h4>
+                            <p>Sauna or hot baths improve cardiovascular function and detox.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mindfulness" class="section">
+                <h2 class="section-title"><span class="emoji">🧘‍♀️</span>Emotional Resets & Mindfulness</h2>
+                <div class="section-content">
+                    <p>Mental wellness doesn't always require therapy — often, it starts with emotional awareness and small resets.</p>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>🫁 Breathing Check-in</h4>
+                            <p>3-minute breathing exercises during study breaks.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>📝 Gratitude Journal</h4>
+                            <p>Write three things you're grateful for before bed.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🏷️ Name It to Tame It</h4>
+                            <p>Labeling your emotions calms your brain.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🧠 Emotional Language</h4>
+                            <p>Say "I'm feeling..." instead of "I am..." - emotions are temporary.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tools" class="section">
+                <h2 class="section-title"><span class="emoji">🔧</span>Biohacking Tools & Free Apps</h2>
+                <div class="section-content">
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>📱 Productivity & Habits</h4>
+                            <ul>
+                                <li>Habitica – turns habits into a game</li>
+                                <li>Loop Habit Tracker – minimal and effective</li>
+                                <li>Trello – organize health goals</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🧘‍♂️ Mental Clarity</h4>
+                            <ul>
+                                <li>Insight Timer (free guided meditations)</li>
+                                <li>Breethe and Balance (customized mindfulness)</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <h4>🛌 Sleep Optimization</h4>
+                            <ul>
+                                <li>Sleep Cycle</li>
+                                <li>Calm Sleep (free and beginner-friendly)</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <h4>📊 Health Trackers</h4>
+                            <ul>
+                                <li>Fitbit, Apple Health</li>
+                                <li>Oura Ring (optional)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="action-plan" class="section">
+                <div class="action-plan">
+                    <h2 class="section-title"><span class="emoji">🎯</span>Summary & Action Plan</h2>
+                    
+                    <div class="highlight-box">
+                        <h3>🎯 Quick Recap:</h3>
+                        <ul>
+                            <li>Biohacking is personal, science-based wellness</li>
+                            <li>Start with tiny daily habits like hydration, movement, and digital breaks</li>
+                            <li>Optimize your sleep, food, and focus to feel your best</li>
+                            <li>Don't strive for perfection — focus on progress and consistency</li>
+                        </ul>
+                    </div>
+
+                    <h3>🗒️ Try This 7-Day Starter Plan:</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Morning sunlight + 10 deep breaths</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Cold shower (30s) + gratitude journaling</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>2L of water + protein-rich breakfast</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Tech-free meal + walk after dinner</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>10 min meditation + no phone 30 min before bed</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Track your sleep cycle + go to bed by 10 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Nature walk + reflect on the week in a journal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+         <!-- FIXED: Go to Top Button with proper functionality -->
+        <button class="go-to-top" id="goToTop" title="Go to top of page" aria-label="Go to top of page">↑</button>
+
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 HealthWell. All rights reserved</p>
+                <div class="footer-links">
+                    <p> <a href="pageEditor_ST3.html">Student 3 Editor</a></p>
+    
+    
+                </div>
+            </div>
+        </footer>
+        <script>
+            // Go to top button functionality
+            const goToTopBtn = document.getElementById('goToTop');
+            
+            // Show/hide button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    goToTopBtn.classList.add('show');
+                } else {
+                    goToTopBtn.classList.remove('show');
+                }
+            });
+        </script>    
